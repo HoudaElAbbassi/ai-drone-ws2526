@@ -1,7 +1,7 @@
 title: AI Drone Project - Structural Inspection
 description: AI-powered FPV drone for structural inspection and monitoring
 theme: jekyll-theme-cayman
-baseurl: "/ai-drone-project"
+baseurl: "/ai-drone-ws2526"
 url: "https://houdaelabbassi.github.io"
 
 # Navigation
@@ -23,7 +23,7 @@ navigation:
 
 # GitHub
 github:
-  repository_url: https://github.com/HoudaElAbbassi/ai-drone-project
+  repository_url: https://github.com/HoudaElAbbassi/ai-drone-ws2526
 
 # Markdown settings
 markdown: kramdown

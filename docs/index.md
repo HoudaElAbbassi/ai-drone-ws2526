@@ -106,7 +106,7 @@ Comprehensive guides for replication.
 
 ## Repository
 
-View the complete source code and resources on [GitHub](https://github.com/HoudaElAbbassi/ai-drone-project).
+View the complete source code and resources on [GitHub](https://github.com/HoudaElAbbassi/ai-drone-ws2526).
 
 ## Contact
 

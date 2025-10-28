@@ -1,7 +1,7 @@
 # AI Drone Project - Structural Inspection System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://houdaelabbassi.github.io/ai-drone-project/)
+[![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://houdaelabbassi.github.io/ai-drone-ws2526/)
 
 ## Overview
 
@@ -60,7 +60,7 @@ Creating comprehensive online documentation via GitHub Pages.
 
 ## Documentation
 
-Full documentation is available at: [GitHub Pages Documentation](https://houdaelabbassi.github.io/ai-drone-project/)
+Full documentation is available at: [GitHub Pages Documentation](https://houdaelabbassi.github.io/ai-drone-ws2526/)
 
 ## Team Members
 
@@ -73,10 +73,10 @@ Full documentation is available at: [GitHub Pages Documentation](https://houdael
 
 ```bash
 # Clone the repository
-git clone https://github.com/HoudaElAbbassi/ai-drone-project.git
+git clone https://github.com/HoudaElAbbassi/ai-drone-ws2526.git
 
 # Navigate to project directory
-cd ai-drone-project
+cd ai-drone-ws2526
 
 # Install dependencies (detailed in documentation)
 pip install -r requirements.txt
@@ -85,7 +85,7 @@ pip install -r requirements.txt
 ## Project Structure
 
 ```
-ai-drone-project/
+ai-drone-ws2526/
 ├── docs/              # GitHub Pages documentation
 │   ├── hardware/      # Hardware setup guides
 │   ├── software/      # Software configuration
