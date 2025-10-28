@@ -1,0 +1,47 @@
+title: AI Drone Project - Structural Inspection
+description: AI-powered FPV drone for structural inspection and monitoring
+theme: jekyll-theme-cayman
+baseurl: "/ai-drone-project"
+url: "https://houdaelabbassi.github.io"
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Hardware
+    url: /hardware/
+  - title: Software
+    url: /software/
+  - title: AI Applications
+    url: /ai-applications/
+  - title: Autopilot
+    url: /autopilot/
+  - title: Delivery System
+    url: /delivery/
+  - title: Tutorials
+    url: /tutorials/
+
+# GitHub
+github:
+  repository_url: https://github.com/HoudaElAbbassi/ai-drone-project
+
+# Markdown settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude from processing
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
