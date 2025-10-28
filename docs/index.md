@@ -3,9 +3,9 @@ layout: default
 title: Home
 ---
 
-# AI Drone Project - Structural Inspection System
+# AI Drone Project - Road Damage Detection System
 
-Welcome to the documentation for our AI-powered FPV drone project focused on structural inspection and monitoring applications.
+Welcome to the documentation for our AI-powered FPV drone project focused on automated road damage detection and assessment.
 
 ## Project Overview
 
@@ -15,24 +15,42 @@ This project is part of the **Master's Program in Computer Science** (Field of S
 
 ### Mission Statement
 
-We are developing an intelligent drone system that combines computer vision, machine learning, and autonomous flight to revolutionize structural inspection and infrastructure monitoring.
+We are developing an intelligent drone system that autonomously flies over roads to detect and classify surface damage using computer vision and deep learning. Our goal is to revolutionize road infrastructure maintenance through automated, efficient, and accurate damage assessment.
+
+## Project Concept
+
+Traditional road inspection is time-consuming, costly, and often inconsistent. Our solution: an autonomous drone equipped with AI that can:
+
+- **Fly over roads** systematically and capture high-resolution imagery
+- **Detect damage** in real-time using onboard AI processing (Google Coral TPU)
+- **Classify defects** into categories: cracks, potholes, rutting, bleeding, weathering
+- **Record locations** with precise GPS coordinates for each detected damage
+- **Generate reports** with damage severity, location maps, and maintenance priorities
+
+This enables proactive maintenance, reduces inspection costs, and improves road safety.
 
 ## Key Features
 
-- **AI-Powered Object Detection**: Real-time identification of structural defects and anomalies
-- **Autonomous Flight**: Integrated autopilot for automated inspection routes
-- **Delivery System**: Payload mechanisms for transporting inspection equipment
-- **Live Video Streaming**: FPV transmission for real-time monitoring
-- **Edge Computing**: On-board AI processing using Google Coral accelerator
+- **AI-Powered Damage Detection**: Real-time identification of 7+ types of road damage
+- **Autonomous Flight**: Pre-programmed flight paths for systematic road coverage
+- **Edge Computing**: On-board AI processing using Google Coral accelerator (10-100x faster)
+- **GPS Tracking**: Precise localization of each detected defect
+- **Live Monitoring**: FPV transmission for real-time inspection oversight
+- **Automated Reporting**: Generate inspection reports with maps and statistics
 
-## Application Areas
+## Types of Road Damage We Detect
 
-Our drone is designed for:
+Our system identifies and classifies:
 
-1. **Building Inspection**: Detecting cracks, water damage, and structural weaknesses
-2. **Bridge Monitoring**: Identifying corrosion and structural defects
-3. **Infrastructure Assessment**: Power lines, towers, and industrial facilities
-4. **Thermal Analysis**: Heat loss detection and energy efficiency evaluation
+1. **Longitudinal Cracks**: Parallel to traffic direction
+2. **Transverse Cracks**: Perpendicular to traffic direction
+3. **Alligator Cracks**: Interconnected cracking patterns
+4. **Potholes**: Surface depressions and holes
+5. **Rutting**: Depressions in wheel paths
+6. **Bleeding**: Excess asphalt on surface
+7. **Weathering**: Surface aggregate loss
+
+Each damage type is assessed for severity (low/medium/high) and recorded with GPS coordinates.
 
 ## System Architecture
 
@@ -59,27 +77,27 @@ Our drone is designed for:
 ## Project Tasks
 
 ### [Task 1: Hardware & Software Setup](hardware/)
-Learn about drone components, capabilities, and limitations.
+Assemble drone, install computing hardware (Raspberry Pi, Google Coral), and configure software stack.
 
 ### [Task 2: AI Application Development](ai-applications/)
-Develop and integrate AI for structural inspection.
+Train and deploy deep learning models for road damage detection and classification.
 
 ### [Task 3: Autopilot Integration](autopilot/)
-Implement autonomous flight capabilities.
+Implement autonomous flight paths for systematic road coverage using ArduPilot/INAV.
 
-### [Task 4: Delivery System](delivery/)
-Create payload drop mechanisms.
+### [Task 4: Payload System](delivery/)
+Optional: Integrate additional sensors or delivery mechanisms for maintenance supplies.
 
 ### [Task 5: Documentation](tutorials/)
-Comprehensive guides for replication.
+Create comprehensive documentation enabling replication by other researchers and students.
 
 ## Quick Links
 
-- [Hardware Setup Guide](hardware/setup.html)
-- [Software Installation](software/installation.html)
-- [AI Model Training](ai-applications/training.html)
-- [Flight Controller Configuration](autopilot/configuration.html)
-- [Getting Started Tutorial](tutorials/getting-started.html)
+- **[Road Damage Detection Overview](road-inspection/overview.html)** - Detailed project concept
+- [Hardware Setup Guide](hardware/setup.html) - Assemble and configure drone
+- [Software Installation](software/installation.html) - Install AI framework and tools
+- [AI Model Training](ai-applications/setup.html) - Train damage detection models
+- [Getting Started Tutorial](tutorials/getting-started.html) - First flight and testing
 
 ## Technology Stack
 

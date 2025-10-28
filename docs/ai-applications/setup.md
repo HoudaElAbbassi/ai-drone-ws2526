@@ -3,27 +3,36 @@ layout: default
 title: AI Applications
 ---
 
-# AI Applications for Structural Inspection
+# AI Applications for Road Damage Detection
 
 [← Back to Home](../)
 
 ## Overview
 
-This section covers the development and implementation of AI-powered applications for structural inspection using computer vision and machine learning.
+This section covers the development and implementation of AI-powered road damage detection using computer vision and deep learning. Our system identifies and classifies various types of road surface damage in real-time during autonomous drone flights.
 
-## Inspection Use Cases
+## Road Damage Detection Use Cases
 
-### 1. Crack Detection
-Identify cracks in concrete structures, bridges, and buildings.
+### 1. Longitudinal & Transverse Crack Detection
+Identify linear cracks running parallel or perpendicular to traffic direction.
 
-### 2. Surface Defect Analysis
-Detect corrosion, spalling, and other surface defects.
+### 2. Alligator Crack Detection
+Detect interconnected cracking patterns indicating structural failure.
 
-### 3. Thermal Anomaly Detection
-Identify heat loss and insulation problems.
+### 3. Pothole Detection
+Identify bowl-shaped depressions and holes in road surface.
 
-### 4. Object Classification
-Classify structural elements and damage types.
+### 4. Rutting Detection
+Detect longitudinal depressions in wheel paths.
+
+### 5. Bleeding Detection
+Identify excess asphalt binder creating slippery surface.
+
+### 6. Weathering Detection
+Detect aggregate loss and surface degradation.
+
+### 7. Severity Classification
+Assess damage severity as low, medium, or high for maintenance prioritization.
 
 ## AI Framework Overview
 
@@ -52,10 +61,11 @@ Classify structural elements and damage types.
 
 ### Custom Training
 
-For structural inspection, we'll need to train custom models on:
-- Crack datasets
-- Corrosion images
-- Infrastructure photos
+For road damage detection, we'll train custom models on:
+- Road crack datasets (RDD2020, CrackForest, etc.)
+- Pothole images from various sources
+- Road surface condition datasets
+- Custom collected data from our drone flights
 
 ## Implementation
 

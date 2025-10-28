@@ -1,4 +1,4 @@
-# AI Drone Project - Structural Inspection System
+# AI Drone Project - Road Damage Detection System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://houdaelabbassi.github.io/ai-drone-ws2526/)
@@ -7,15 +7,25 @@
 
 This project is part of the Master's Program in Computer Science (Field of Study: Intelligent Systems) at Frankfurt University of Applied Sciences, Winter Semester 2025/2026, supervised by Prof. Dr. Christian Baun.
 
-We are developing an AI-powered FPV drone system focused on **structural inspection and monitoring applications**, utilizing computer vision and machine learning to automate infrastructure assessment.
+We are developing an AI-powered FPV drone system for **automated road damage detection and assessment**. The drone flies over roads and uses computer vision and deep learning models to identify and classify various types of road surface damage, including cracks, potholes, and surface degradation.
+
+## Project Concept
+
+Our drone autonomously patrols road infrastructure and performs real-time analysis of road surface conditions. By combining aerial imagery with AI-powered defect detection, we aim to:
+
+- **Automate road inspection**: Replace manual inspections with efficient aerial surveys
+- **Early damage detection**: Identify road damage before it becomes severe
+- **Cost reduction**: Reduce inspection costs and improve maintenance planning
+- **Safety improvement**: Minimize road hazards through proactive maintenance
+- **Data-driven decisions**: Provide quantitative data for infrastructure management
 
 ## Project Goals
 
-- Develop and integrate AI applications for structural inspection
-- Implement object detection and defect recognition systems
-- Research and integrate autopilot capabilities
-- Create delivery/payload mechanisms for inspection equipment
-- Build comprehensive documentation for replication and education
+- Develop and train AI models for road damage classification (cracks, potholes, surface wear)
+- Implement real-time detection system using computer vision and deep learning
+- Create autonomous flight paths for systematic road coverage
+- Generate detailed damage reports with GPS coordinates and severity assessment
+- Build comprehensive documentation for replication and research
 
 ## Hardware Components
 
@@ -43,11 +53,14 @@ We are developing an AI-powered FPV drone system focused on **structural inspect
 Understanding the capabilities and limitations of all drone components.
 
 ### Task 2: AI Application Development
-Focus on structural inspection applications including:
-- Crack detection in buildings and bridges
-- Surface defect identification
-- Thermal anomaly detection
-- Real-time object recognition
+Focus on road damage detection including:
+- **Longitudinal cracks**: Parallel to traffic direction
+- **Transverse cracks**: Perpendicular to traffic direction
+- **Alligator cracks**: Interconnected cracks forming patterns
+- **Potholes**: Surface depressions and holes
+- **Rutting**: Depressions in wheel paths
+- **Bleeding**: Excess asphalt on surface
+- **Weathering**: Surface texture degradation
 
 ### Task 3: Autopilot Integration
 Implementing autonomous flight capabilities using INAV or ArduPilot.
