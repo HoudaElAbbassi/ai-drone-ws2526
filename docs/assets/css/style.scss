@@ -8,20 +8,20 @@
    Tech-inspired design for drone/robotics project
    ============================================ */
 
-/* Color Palette - Green/Nature (Eco-Inspection) */
+/* Color Palette - Drone/Tech Aesthetic */
 :root {
-  --primary-blue: #10b981;
-  --dark-blue: #047857;
-  --accent-orange: #fbbf24;
-  --tech-gray: #374151;
-  --light-gray: #f0fdf4;
-  --success-green: #059669;
+  --primary-blue: #0a7bdc;
+  --dark-blue: #05395f;
+  --accent-orange: #ff6b35;
+  --tech-gray: #2d3748;
+  --light-gray: #f7fafc;
+  --success-green: #48bb78;
   --code-bg: #1a202c;
 }
 
-/* Header Gradient - Nature/Eco Theme */
+/* Header Gradient - Sky to Ground */
 .page-header {
-  background: linear-gradient(135deg, #10b981 0%, #047857 50%, #374151 100%);
+  background: linear-gradient(135deg, #0a7bdc 0%, #05395f 50%, #2d3748 100%);
   padding: 3rem 1rem;
 }
 
