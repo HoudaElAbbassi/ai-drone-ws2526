@@ -52,7 +52,6 @@ except Exception as e:
 # --- INITIALIZE CAMERA ---
 try:
     picam2 = Picamera2()
-    # Using 2 buffers for lores to ensure we don't block
     config = picam2.create_video_configuration(
         main={"size": (1920, 1080), "format": "YUV420"}, 
         lores={"size": (input_width, input_height), "format": "YUV420"},
@@ -161,7 +160,6 @@ def save_detection(frame, box, score):
     start_point = (int(xmin * w), int(ymin * h))
     end_point = (int(xmax * w), int(ymax * h))
     
-    # Draw on a COPY to ensure we don't mess up thread safety (though we are single threaded here)
     out_img = frame.copy()
     out_img = cv2.cvtColor(out_img, cv2.COLOR_RGB2BGR)
     cv2.rectangle(out_img, start_point, end_point, (0, 0, 255), 2)
@@ -202,21 +200,11 @@ def main():
                     recording = False
 
             if recording:
-                # Capture array normally
-                # Picamera2 'capture_array' blocks until a frame is ready.
-                # If we take too long processing, the queue fills up.
-                
-                # Check if camera has a frame ready (non-blocking attempt roughly)
-                # Ideally we just process as fast as possible.
-                
                 try:
                     # Capture RAW YUV data
-                    # We copy it immediately to release the buffer
                     yuv_frame_ref = picam2.capture_array("lores")
                     yuv_frame = yuv_frame_ref.copy() 
-                    del yuv_frame_ref # Explicitly release reference
-                    
-                    # Now we can take our time processing 'yuv_frame'
+                    del yuv_frame_ref 
                     rgb_frame = yuv420_to_rgb(yuv_frame, input_width, input_height)
                     boxes, classes, scores = run_inference(rgb_frame)
                     
@@ -228,9 +216,6 @@ def main():
                 except Exception as e:
                     print(f"Frame drop warning: {e}")
             
-            # Reduce sleep to process frames faster? 
-            # Actually, we want to sleep IF we are idle, but capture_array blocks anyway.
-            # Small sleep for RC check responsiveness if not recording.
             if not recording:
                 time.sleep(0.05)
 
