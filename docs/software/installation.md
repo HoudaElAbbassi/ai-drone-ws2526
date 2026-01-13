@@ -133,45 +133,50 @@ sudo apt install libedgetpu1-std python3-pycoral
 
 ## Flight Controller Software
 
-### Betaflight Configuration
+### INAV Configuration
 
-**Install Betaflight Configurator on Computer:**
-1. Download from [betaflight.com](https://betaflight.com)
+**Install INAV Configurator on Computer:**
+1. Download from [github.com/iNavFlight/inav-configurator](https://github.com/iNavFlight/inav-configurator/releases)
 2. Connect flight controller via USB
-3. Flash latest Betaflight firmware
+3. Flash latest INAV firmware
 
 **Basic Configuration:**
 ```
 1. Setup Tab:
-   - Select quadcopter configuration
+   - Select quadcopter/fixed-wing configuration
    - Set correct board alignment
 
 2. Ports Tab:
+   - Enable MSP on UART for Raspberry Pi connection
    - Enable Serial RX on appropriate UART
    - Enable GPS if using
 
 3. Configuration Tab:
    - Set ESC/Motor protocol
-   - Configure receiver (ELRS)
-   - Enable features: GPS, OSD, etc.
+   - Configure receiver (ELRS, CRSF, etc.)
+   - Enable features: GPS, OSD, TELEMETRY
 
 4. PID Tuning:
    - Load default PID profile
-   - Adjust based on drone weight
+   - Adjust based on drone weight and flight characteristics
 
 5. Receiver Tab:
    - Configure channel mapping
    - Set failsafe values
+   - Map AUX8 for camera recording trigger
 
 6. Modes Tab:
    - Configure ARM switch
    - Set flight modes (Angle, Horizon, Acro)
+   - Optional: Configure autonomous modes (RTH, WP, etc.)
 
 7. Motors Tab:
    - Test motor direction (props OFF!)
    - Verify motor order: 1-Front Left, 2-Front Right,
                          3-Back Right, 4-Back Left
 ```
+
+**Note**: INAV is used for this project due to its superior autonomous flight and GPS navigation capabilities, which are essential for systematic road inspection missions.
 
 ### ArduPilot Installation (Alternative)
 
@@ -351,9 +356,10 @@ python3 test_system.py
 
 ## Next Steps
 
-1. [Configure Flight Controller](../autopilot/configuration.html)
-2. [Set up AI Applications](../ai-applications/setup.html)
-3. [Begin Training AI Models](../ai-applications/training.html)
+1. **[Camera Control System](camera-control.html)** - Learn about the integrated recording & AI system
+2. [Configure Flight Controller](../autopilot/configuration.html)
+3. [Set up AI Applications](../ai-applications/setup.html)
+4. [Begin Training AI Models](../ai-applications/training.html)
 
 ## Troubleshooting
 
@@ -392,4 +398,4 @@ sudo reboot
 
 ---
 
-[← Back to Home](../) | [Next: AI Applications →](../ai-applications/setup.html)
+[← Back to Home](../) | [Next: Camera Control →](camera-control.html) | [AI Applications →](../ai-applications/setup.html)

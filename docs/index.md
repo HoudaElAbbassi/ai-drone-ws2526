@@ -96,6 +96,7 @@ Create comprehensive documentation enabling replication by other researchers and
 - **[Road Damage Detection Overview](road-inspection/overview.html)** - Detailed project concept
 - [Hardware Setup Guide](hardware/setup.html) - Assemble and configure drone
 - [Software Installation](software/installation.html) - Install AI framework and tools
+- **[Camera Control System](software/camera-control.html)** - RC-triggered recording & AI detection
 - [AI Model Training](ai-applications/setup.html) - Train damage detection models
 - [Getting Started Tutorial](tutorials/getting-started.html) - First flight and testing
 
@@ -107,12 +108,13 @@ Create comprehensive documentation enabling replication by other researchers and
 - Google Coral USB Accelerator
 - Camera Module
 - GPS Receiver
-- Flight Controller (Betaflight/INAV/ArduPilot)
+- Flight Controller (INAV/ArduPilot)
 
 ### Software
 - **OS**: Raspbian/Ubuntu
-- **AI Frameworks**: TensorFlow Lite, YOLO
-- **Flight Software**: ArduPilot, QGroundControl
+- **AI Frameworks**: TensorFlow Lite, YOLOv8, Google Coral TPU
+- **Flight Software**: INAV, ArduPilot, QGroundControl
+- **Camera**: Picamera2 with dual-stream processing
 - **Languages**: Python, C++
 
 ## Team
