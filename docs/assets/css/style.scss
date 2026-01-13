@@ -1,0 +1,281 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* ============================================
+   AI DRONE PROJECT - CUSTOM THEME
+   Tech-inspired design for drone/robotics project
+   ============================================ */
+
+/* Color Palette - Green/Nature (Eco-Inspection) */
+:root {
+  --primary-blue: #10b981;
+  --dark-blue: #047857;
+  --accent-orange: #fbbf24;
+  --tech-gray: #374151;
+  --light-gray: #f0fdf4;
+  --success-green: #059669;
+  --code-bg: #1a202c;
+}
+
+/* Header Gradient - Nature/Eco Theme */
+.page-header {
+  background: linear-gradient(135deg, #10b981 0%, #047857 50%, #374151 100%);
+  padding: 3rem 1rem;
+}
+
+.project-name {
+  font-weight: 700;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
+}
+
+.project-tagline {
+  font-weight: 300;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+/* Navigation Enhancement */
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: var(--accent-orange);
+  border-color: var(--accent-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+/* Main Content Area */
+.main-content {
+  max-width: 1100px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Headers with Accent Color */
+.main-content h1,
+.main-content h2 {
+  color: var(--dark-blue);
+  border-bottom: 3px solid var(--accent-orange);
+  padding-bottom: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.main-content h3 {
+  color: var(--primary-blue);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.main-content h3::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--accent-orange);
+  font-weight: bold;
+}
+
+/* Code Blocks - Terminal Style */
+.main-content pre {
+  background-color: var(--code-bg);
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main-content code {
+  background-color: #edf2f7;
+  color: #2d3748;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: "Monaco", "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+.main-content pre code {
+  background-color: transparent;
+  color: #a0aec0;
+  padding: 0;
+}
+
+/* Links - Tech Blue */
+.main-content a {
+  color: var(--primary-blue);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.main-content a:hover {
+  color: var(--accent-orange);
+  border-bottom-color: var(--accent-orange);
+}
+
+/* Tables - Modern Design */
+.main-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.main-content table thead {
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+  color: white;
+}
+
+.main-content table th {
+  padding: 1rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.main-content table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.main-content table tbody tr:hover {
+  background-color: var(--light-gray);
+}
+
+/* Blockquotes - Info Boxes */
+.main-content blockquote {
+  background-color: #edf2f7;
+  border-left: 5px solid var(--primary-blue);
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  margin: 1.5rem 0;
+}
+
+/* Lists - Better Spacing */
+.main-content ul,
+.main-content ol {
+  padding-left: 2rem;
+  margin: 1rem 0;
+}
+
+.main-content li {
+  margin: 0.5rem 0;
+}
+
+/* Horizontal Rules */
+.main-content hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--accent-orange),
+    transparent
+  );
+  margin: 3rem 0;
+}
+
+/* Image Enhancements */
+.main-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin: 1.5rem 0;
+}
+
+/* Custom Alert Boxes */
+.alert {
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  border-left: 5px solid;
+}
+
+.alert-info {
+  background-color: #e6f7ff;
+  border-color: var(--primary-blue);
+  color: var(--dark-blue);
+}
+
+.alert-warning {
+  background-color: #fff7e6;
+  border-color: var(--accent-orange);
+  color: #8b4513;
+}
+
+.alert-success {
+  background-color: #f0fff4;
+  border-color: var(--success-green);
+  color: #2f855a;
+}
+
+/* Syntax Highlighting Enhancement */
+.highlight {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Footer */
+.site-footer {
+  border-top: 3px solid var(--primary-blue);
+  padding-top: 2rem;
+  margin-top: 4rem;
+  color: #718096;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .project-name {
+    font-size: 1.8rem;
+  }
+
+  .project-tagline {
+    font-size: 1rem;
+  }
+
+  .main-content {
+    font-size: 1rem;
+  }
+
+  .main-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .main-content h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .page-header,
+  .btn {
+    display: none;
+  }
+
+  .main-content {
+    max-width: 100%;
+  }
+}

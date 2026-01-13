@@ -24,6 +24,7 @@ This guide covers the installation and configuration of all software components 
 ### 1. Install Raspbian OS
 
 **Download Raspberry Pi Imager:**
+
 ```bash
 # On macOS
 brew install --cask raspberry-pi-imager
@@ -33,6 +34,7 @@ sudo apt install rpi-imager
 ```
 
 **Flash SD Card:**
+
 1. Insert SD card into computer
 2. Launch Raspberry Pi Imager
 3. Choose "Raspberry Pi OS Lite (64-bit)"
@@ -40,6 +42,7 @@ sudo apt install rpi-imager
 5. Click "Write"
 
 **Enable SSH (Optional):**
+
 ```bash
 # After flashing, mount the boot partition
 touch /Volumes/boot/ssh
@@ -47,6 +50,7 @@ touch /Volumes/boot/ssh
 
 **Configure WiFi (Optional):**
 Create `wpa_supplicant.conf` in boot partition:
+
 ```
 country=DE
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -136,11 +140,13 @@ sudo apt install libedgetpu1-std python3-pycoral
 ### INAV Configuration
 
 **Install INAV Configurator on Computer:**
+
 1. Download from [github.com/iNavFlight/inav-configurator](https://github.com/iNavFlight/inav-configurator/releases)
 2. Connect flight controller via USB
 3. Flash latest INAV firmware
 
 **Basic Configuration:**
+
 ```
 1. Setup Tab:
    - Select quadcopter/fixed-wing configuration
@@ -263,11 +269,13 @@ edgetpu_compiler model.tflite
 ### Install QGroundControl (on Computer)
 
 **macOS:**
+
 ```bash
 brew install --cask qgroundcontrol
 ```
 
 **Linux:**
+
 ```bash
 sudo usermod -a -G dialout $USER
 sudo apt-get remove modemmanager -y
@@ -350,6 +358,7 @@ if __name__ == "__main__":
 ```
 
 Run the test:
+
 ```bash
 python3 test_system.py
 ```
@@ -366,6 +375,7 @@ python3 test_system.py
 ### Common Issues
 
 **Camera not detected:**
+
 ```bash
 # Check camera connection
 vcgencmd get_camera
@@ -376,6 +386,7 @@ sudo raspi-config
 ```
 
 **Coral not detected:**
+
 ```bash
 # Check USB connection
 lsusb | grep "Google"
@@ -385,6 +396,7 @@ sudo apt install --reinstall libedgetpu1-std
 ```
 
 **Permission errors:**
+
 ```bash
 # Add user to video group
 sudo usermod -a -G video $USER
