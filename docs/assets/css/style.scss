@@ -3,35 +3,170 @@
 
 @import "{{ site.theme }}";
 
-/* Custom overrides for AI Drone Project */
+/* ================================================
+   AI DRONE PROJECT - CLEAN PROFESSIONAL THEME
+   ================================================ */
+
+/* Modern Color Palette */
 :root {
-  --primary: #159957;
-  --secondary: #155799;
-  --accent: #3c9d9b;
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --accent: #f59e0b;
+  --dark: #1f2937;
+  --light: #f3f4f6;
 }
 
+/* Header - Professional Gradient */
 .page-header {
-  background-image: linear-gradient(120deg, #155799, #159957);
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  padding: 4rem 1rem;
+}
+
+/* Buttons - Modern Style */
+.btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+/* Typography - Clean & Readable */
+.main-content {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 1000px;
 }
 
 .main-content h1,
 .main-content h2 {
-  color: #155799;
+  color: var(--primary-dark);
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 0.5rem;
+  font-weight: 600;
 }
 
+.main-content h3 {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.main-content h4,
+.main-content h5,
+.main-content h6 {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+/* Links - Clear Hover States */
 .main-content a {
-  color: #159957;
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .main-content a:hover {
-  color: #0d6e46;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  text-decoration: none;
 }
 
-.btn {
-  background-image: linear-gradient(120deg, #155799, #159957);
+/* Code Blocks - Terminal Style */
+.main-content pre {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-content code {
+  background: #e5e7eb;
+  color: #1f2937;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.main-content pre code {
+  background: transparent;
+  color: #94a3b8;
+  padding: 0;
+}
+
+/* Tables - Modern Design */
+.main-content table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-content table th {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: white;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.main-content table td {
+  padding: 0.75rem 1rem;
+}
+
+.main-content table tbody tr:hover {
+  background: var(--light);
+}
+
+/* Blockquotes - Info Boxes */
+.main-content blockquote {
+  background: #eff6ff;
+  border-left: 4px solid var(--primary);
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  color: var(--dark);
+}
+
+/* Images - Subtle Shadow */
+.main-content img {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Horizontal Rules */
+.main-content hr {
   border: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+  margin: 2.5rem 0;
 }
 
-.btn:hover {
-  background-image: linear-gradient(120deg, #0d4570, #0d6e46);
+/* Lists - Better Spacing */
+.main-content ul,
+.main-content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.main-content li {
+  margin: 0.5rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 3rem 1rem;
+  }
+  
+  .main-content {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  }
 }
