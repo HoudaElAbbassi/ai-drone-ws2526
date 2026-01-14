@@ -3,104 +3,134 @@ layout: default
 title: Home
 ---
 
-# AI Drone Project - Road Damage Detection System
+<div style="text-align: center; padding: 2rem 0 3rem;">
+  <div style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #e0f2fe, #f0f9ff); padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; color: #0369a1; margin-bottom: 1.5rem;">
+    <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%;"></span>
+    Frankfurt UAS · WS 2025/26
+  </div>
+  <h1 style="font-size: 2.75rem; background: linear-gradient(135deg, #0f172a 0%, #0369a1 50%, #06b6d4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; line-height: 1.2;">AI-Powered Road Damage Detection</h1>
+  <p style="font-size: 1.2rem; color: #64748b; max-width: 600px; margin: 0 auto 2rem;">Autonomous FPV drone system with real-time AI detection for revolutionizing road infrastructure maintenance.</p>
+  <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <a href="{{ site.baseurl }}/road-inspection/overview.html" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: white; padding: 0.875rem 1.75rem; border-radius: 10px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);">
+      Get Started →
+    </a>
+    <a href="{{ site.github.repository_url }}" style="display: inline-flex; align-items: center; gap: 8px; background: #1e293b; color: white; padding: 0.875rem 1.75rem; border-radius: 10px; font-weight: 600; text-decoration: none;">
+      View on GitHub
+    </a>
+  </div>
+</div>
 
-Welcome to the documentation for our AI-powered FPV drone project focused on automated road damage detection and assessment.
+---
 
-## Project Overview
+## 🎯 Project Mission
 
-This project is part of the **Master's Program in Computer Science** (Field of Study: Intelligent Systems) at **Frankfurt University of Applied Sciences**, Winter Semester 2025/2026.
+Traditional road inspection is **time-consuming**, **costly**, and often **inconsistent**. Our solution combines autonomous drone technology with edge AI to deliver:
 
-**Supervisor**: Prof. Dr. Christian Baun
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin: 2rem 0;">
 
-### Mission Statement
+<div style="background: linear-gradient(135deg, #f8fafc, #f0f9ff); border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem;">
+  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #0ea5e9, #06b6d4); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: white; font-size: 1.25rem;">🚁</div>
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">Autonomous Flight</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Pre-programmed paths for systematic road coverage with GPS tracking.</p>
+</div>
 
-We are developing an intelligent drone system that autonomously flies over roads to detect and classify surface damage using computer vision and deep learning. Our goal is to revolutionize road infrastructure maintenance through automated, efficient, and accurate damage assessment.
+<div style="background: linear-gradient(135deg, #f8fafc, #f0f9ff); border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem;">
+  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: white; font-size: 1.25rem;">🧠</div>
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">AI-Powered Detection</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Real-time identification of 7+ types of road damage using deep learning.</p>
+</div>
 
-## Project Concept
+<div style="background: linear-gradient(135deg, #f8fafc, #f0f9ff); border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem;">
+  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #34d399); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: white; font-size: 1.25rem;">⚡</div>
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">Edge Computing</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">On-board processing with Google Coral TPU for 10-100x faster inference.</p>
+</div>
 
-Traditional road inspection is time-consuming, costly, and often inconsistent. Our solution: an autonomous drone equipped with AI that can:
+<div style="background: linear-gradient(135deg, #f8fafc, #f0f9ff); border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem;">
+  <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #fbbf24); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: white; font-size: 1.25rem;">📷</div>
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">Live Monitoring</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">FPV transmission for real-time inspection oversight and control.</p>
+</div>
 
-- **Fly over roads** systematically and capture high-resolution imagery
-- **Detect damage** in real-time using onboard AI processing (Google Coral TPU)
-- **Classify defects** into categories: cracks, potholes, rutting, bleeding, weathering
-- **Record locations** with precise GPS coordinates for each detected damage
-- **Generate reports** with damage severity, location maps, and maintenance priorities
+</div>
 
-This enables proactive maintenance, reduces inspection costs, and improves road safety.
+## 🛠️ System Architecture
 
-## Key Features
-
-- **AI-Powered Damage Detection**: Real-time identification of 7+ types of road damage
-- **Autonomous Flight**: Pre-programmed flight paths for systematic road coverage
-- **Edge Computing**: On-board AI processing using Google Coral accelerator (10-100x faster)
-- **GPS Tracking**: Precise localization of each detected defect
-- **Live Monitoring**: FPV transmission for real-time inspection oversight
-- **Automated Reporting**: Generate inspection reports with maps and statistics
-
-## Types of Road Damage We Detect
-
-Our system identifies and classifies:
-
-1. **Longitudinal Cracks**: Parallel to traffic direction
-2. **Transverse Cracks**: Perpendicular to traffic direction
-3. **Alligator Cracks**: Interconnected cracking patterns
-4. **Potholes**: Surface depressions and holes
-5. **Rutting**: Depressions in wheel paths
-6. **Bleeding**: Excess asphalt on surface
-7. **Weathering**: Surface aggregate loss
-
-Each damage type is assessed for severity (low/medium/high) and recorded with GPS coordinates.
-
-## System Architecture
+Our drone integrates multiple components for autonomous road inspection:
 
 ```
-┌─────────────────────────────────────────────┐
-│          FPV Drone Platform                 │
-│  ┌────────────┐        ┌─────────────┐     │
-│  │  Camera    │───────▶│ Raspberry Pi│     │
-│  │  System    │        │   Zero 2 WH │     │
-│  └────────────┘        └──────┬──────┘     │
-│                               │             │
-│  ┌────────────┐        ┌──────▼──────┐     │
-│  │   Flight   │◀──────▶│ Google Coral│     │
-│  │ Controller │        │ AI Accel.   │     │
-│  └────────────┘        └─────────────┘     │
-│                                             │
-│  ┌────────────┐        ┌─────────────┐     │
-│  │    GPS     │        │  FPV TX/RX  │     │
-│  │  Receiver  │        │   System    │     │
-│  └────────────┘        └─────────────┘     │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    FPV DRONE PLATFORM                       │
+│  ┌──────────────┐              ┌────────────────────┐      │
+│  │   Camera     │─────────────▶│   Raspberry Pi     │      │
+│  │   Module     │              │   Zero 2 WH        │      │
+│  └──────────────┘              └─────────┬──────────┘      │
+│                                          │                  │
+│  ┌──────────────┐              ┌─────────▼──────────┐      │
+│  │   Flight     │◀────────────▶│   Google Coral     │      │
+│  │  Controller  │              │   AI Accelerator   │      │
+│  └──────────────┘              └────────────────────┘      │
+│                                                             │
+│  ┌──────────────┐              ┌────────────────────┐      │
+│  │     GPS      │              │    FPV TX/RX       │      │
+│  │   Receiver   │              │    System          │      │
+│  └──────────────┘              └────────────────────┘      │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## Project Tasks
+## 🔍 Damage Types Detected
 
-### [Task 1: Hardware & Software Setup](hardware/)
-Assemble drone, install computing hardware (Raspberry Pi, Google Coral), and configure software stack.
+| Type | Description | Severity |
+|------|-------------|----------|
+| **Longitudinal Cracks** | Parallel to traffic direction | Low / Medium / High |
+| **Transverse Cracks** | Perpendicular to traffic | Low / Medium / High |
+| **Alligator Cracks** | Interconnected patterns | Low / Medium / High |
+| **Potholes** | Surface depressions | Low / Medium / High |
+| **Rutting** | Wheel path depressions | Low / Medium / High |
+| **Bleeding** | Excess asphalt on surface | Low / Medium / High |
+| **Weathering** | Surface aggregate loss | Low / Medium / High |
 
-### [Task 2: AI Application Development](ai-applications/)
-Train and deploy deep learning models for road damage detection and classification.
+## 📚 Documentation
 
-### [Task 3: Autopilot Integration](autopilot/)
-Implement autonomous flight paths for systematic road coverage using ArduPilot/INAV.
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0;">
 
-### [Task 4: Payload System](delivery/)
-Optional: Integrate additional sensors or delivery mechanisms for maintenance supplies.
+<a href="{{ site.baseurl }}/road-inspection/overview.html" style="display: block; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit;">
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">📋 Project Overview</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Detailed concept, problem statement, and solution approach.</p>
+</a>
 
-### [Task 5: Documentation](tutorials/)
-Create comprehensive documentation enabling replication by other researchers and students.
+<a href="{{ site.baseurl }}/hardware/setup.html" style="display: block; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit;">
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">🔧 Hardware Setup</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Assemble and configure drone hardware components.</p>
+</a>
 
-## Quick Links
+<a href="{{ site.baseurl }}/software/installation.html" style="display: block; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit;">
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">💻 Software Installation</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Install and configure the AI framework and tools.</p>
+</a>
 
-- **[Road Damage Detection Overview](road-inspection/overview.html)** - Detailed project concept
-- [Hardware Setup Guide](hardware/setup.html) - Assemble and configure drone
-- [Software Installation](software/installation.html) - Install AI framework and tools
-- **[Camera Control System](software/camera-control.html)** - RC-triggered recording & AI detection
-- [AI Model Training](ai-applications/setup.html) - Train damage detection models
-- [Getting Started Tutorial](tutorials/getting-started.html) - First flight and testing
+<a href="{{ site.baseurl }}/software/camera-control.html" style="display: block; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit;">
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">📷 Camera Control</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">RC-triggered recording and AI detection system.</p>
+</a>
 
-## Technology Stack
+<a href="{{ site.baseurl }}/ai-applications/setup.html" style="display: block; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit;">
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">🧠 AI & Datasets</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Train and deploy damage detection models.</p>
+</a>
+
+<a href="{{ site.baseurl }}/tutorials/getting-started.html" style="display: block; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; text-decoration: none; color: inherit;">
+  <h4 style="margin: 0 0 0.5rem; color: #0f172a;">📖 Tutorials</h4>
+  <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Step-by-step guides for first flight and testing.</p>
+</a>
+
+</div>
+
+## 🚀 Technology Stack
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin: 2rem 0;">
+
+<div>
 
 ### Hardware
 - FPV Drone Frame
@@ -110,31 +140,24 @@ Create comprehensive documentation enabling replication by other researchers and
 - GPS Receiver
 - Flight Controller (INAV/ArduPilot)
 
+</div>
+
+<div>
+
 ### Software
 - **OS**: Raspbian/Ubuntu
-- **AI Frameworks**: TensorFlow Lite, YOLOv8, Google Coral TPU
-- **Flight Software**: INAV, ArduPilot, QGroundControl
-- **Camera**: Picamera2 with dual-stream processing
+- **AI**: TensorFlow Lite, YOLOv8
+- **Flight**: INAV, ArduPilot
+- **Camera**: Picamera2
 - **Languages**: Python, C++
 
-## Team
+</div>
 
-- Team Member 1 - [Role]
-- Team Member 2 - [Role]
-- Team Member 3 - [Role]
-- Team Member 4 - [Role]
-
-## Repository
-
-View the complete source code and resources on [GitHub](https://github.com/HoudaElAbbassi/ai-drone-ws2526).
-
-## Contact
-
-**Project Supervisor**
-- Prof. Dr. Christian Baun
-- Email: christianbaun@fra-uas.de
-- Web: [www.christianbaun.de](http://www.christianbaun.de)
+</div>
 
 ---
 
-*Last updated: October 2025*
+<div style="text-align: center; padding: 2rem 0;">
+  <p style="color: #64748b; margin-bottom: 0.5rem;">Supervised by <strong>Prof. Dr. Christian Baun</strong></p>
+  <p style="color: #94a3b8; font-size: 0.875rem;">Frankfurt University of Applied Sciences · Winter Semester 2025/2026</p>
+</div>
