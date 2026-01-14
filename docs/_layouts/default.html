@@ -69,13 +69,14 @@
     document.addEventListener('DOMContentLoaded', function() {
       const tocList = document.getElementById('toc-list');
       const tocSidebar = document.getElementById('toc-sidebar');
-      const headers = document.querySelectorAll('.page-content h2, .page-content h3');
+      const headers = Array.from(document.querySelectorAll('.page-content h2, .page-content h3'));
       
       if (headers.length < 2) {
         if (tocSidebar) tocSidebar.style.display = 'none';
         return;
       }
 
+      // Build TOC
       headers.forEach(function(header) {
         if (!header.id) {
           header.id = header.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -90,19 +91,50 @@
         tocList.appendChild(li);
       });
 
-      const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          const id = entry.target.getAttribute('id');
-          const tocLink = document.querySelector('.toc-link[href="#' + id + '"]');
-          if (tocLink && entry.isIntersecting) {
-            document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
-            tocLink.classList.add('active');
+      // Scroll spy - highlight based on scroll position
+      function updateActiveLink() {
+        const scrollPos = window.scrollY + 80; // offset for header
+        let currentId = '';
+        
+        for (let i = headers.length - 1; i >= 0; i--) {
+          if (headers[i].offsetTop <= scrollPos) {
+            currentId = headers[i].id;
+            break;
+          }
+        }
+        
+        // If at bottom of page, highlight last section
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+          currentId = headers[headers.length - 1].id;
+        }
+        
+        document.querySelectorAll('.toc-link').forEach(function(link) {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + currentId) {
+            link.classList.add('active');
           }
         });
-      }, { rootMargin: '-20% 0px -80% 0px' });
+      }
 
-      headers.forEach(h => observer.observe(h));
+      // Smooth scroll with correct offset when clicking TOC links
+      tocList.addEventListener('click', function(e) {
+        if (e.target.classList.contains('toc-link')) {
+          e.preventDefault();
+          const targetId = e.target.getAttribute('href').slice(1);
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            const offset = 70;
+            const targetPos = targetEl.offsetTop - offset;
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+            history.pushState(null, null, '#' + targetId);
+          }
+        }
+      });
 
+      window.addEventListener('scroll', updateActiveLink, { passive: true });
+      updateActiveLink();
+
+      // Sidebar nav active state
       const currentPath = window.location.pathname;
       document.querySelectorAll('.nav-link').forEach(function(link) {
         const href = link.getAttribute('href');
