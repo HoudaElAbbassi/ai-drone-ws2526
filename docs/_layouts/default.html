@@ -3,67 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#171717">
   {% seo %}
   <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚁%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 
-  <!-- Mobile Overlay -->
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
   <div class="layout">
-    <!-- Left Sidebar -->
     <aside class="sidebar" id="sidebar">
       {% include sidebar.html %}
     </aside>
 
-    <!-- Main Content Wrapper -->
     <main class="main-content">
-      
-      <!-- Top Navigation Bar -->
       <header class="top-bar">
         <button class="mobile-menu-btn" aria-label="Toggle Menu" onclick="toggleSidebar()">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
         <div class="breadcrumbs">
-          <a href="{{ site.baseurl }}/" style="color: inherit; text-decoration: none;">AI Drone</a>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4">
+          <a href="{{ site.baseurl }}/" style="color: inherit; text-decoration: none;">Docs</a>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
           <span class="current">{{ page.title }}</span>
         </div>
       </header>
 
-      <!-- Page Content -->
       <div class="page-content">
         {{ content }}
         
         <footer class="site-footer">
-          <p>© 2026 AI Drone Project · Frankfurt University of Applied Sciences</p>
-          <p style="margin-top: 0.5rem; font-size: 0.8rem;">Built with ❤️ for road safety innovation</p>
+          <p>© 2026 AI Drone Project · Frankfurt UAS</p>
         </footer>
       </div>
-
     </main>
     
-    <!-- Right Sidebar (Table of Contents) -->
     <aside class="toc-sidebar" id="toc-sidebar">
       <div class="toc-title">On this page</div>
-      <ul class="toc-list" id="toc-list">
-        <!-- Generated via JS -->
-      </ul>
+      <ul class="toc-list" id="toc-list"></ul>
     </aside>
-
   </div>
 
   <script>
-    // Sidebar Toggle for Mobile
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('sidebar-overlay');
@@ -80,7 +66,6 @@
       document.body.style.overflow = '';
     }
 
-    // Generate Table of Contents
     document.addEventListener('DOMContentLoaded', function() {
       const tocList = document.getElementById('toc-list');
       const tocSidebar = document.getElementById('toc-sidebar');
@@ -95,43 +80,31 @@
         if (!header.id) {
           header.id = header.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         }
-
         const li = document.createElement('li');
-        li.style.paddingLeft = header.tagName === 'H3' ? '0.75rem' : '0';
-        
+        li.style.paddingLeft = header.tagName === 'H3' ? '0.5rem' : '0';
         const a = document.createElement('a');
         a.href = '#' + header.id;
         a.textContent = header.textContent;
         a.className = 'toc-link';
-        
         li.appendChild(a);
         tocList.appendChild(li);
       });
 
-      // Scroll spy for TOC
       const observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           const id = entry.target.getAttribute('id');
           const tocLink = document.querySelector('.toc-link[href="#' + id + '"]');
-          if (tocLink) {
-            if (entry.isIntersecting) {
-              document.querySelectorAll('.toc-link').forEach(function(link) {
-                link.classList.remove('active');
-              });
-              tocLink.classList.add('active');
-            }
+          if (tocLink && entry.isIntersecting) {
+            document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+            tocLink.classList.add('active');
           }
         });
       }, { rootMargin: '-20% 0px -80% 0px' });
 
-      headers.forEach(function(header) {
-        observer.observe(header);
-      });
+      headers.forEach(h => observer.observe(h));
 
-      // Active Link Highlighting for Sidebar Navigation
       const currentPath = window.location.pathname;
-      const navLinks = document.querySelectorAll('.nav-link');
-      navLinks.forEach(function(link) {
+      document.querySelectorAll('.nav-link').forEach(function(link) {
         const href = link.getAttribute('href');
         if (href === currentPath || href === currentPath + '/' || currentPath.endsWith(href)) {
           link.classList.add('active');
