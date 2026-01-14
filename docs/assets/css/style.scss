@@ -234,7 +234,8 @@ a:hover {
 /* Code Blocks - Terminal Style */
 .main-content code {
   padding: 2px 4px;
-  font-family: "Monaco", "Courier New", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: "Monaco", "Courier New", Consolas, "Liberation Mono", Menlo,
+    Courier, monospace;
   font-size: 0.9rem;
   color: #2d3748;
   background-color: #edf2f7;
@@ -390,7 +391,12 @@ a:hover {
   height: 2px;
   padding: 0;
   margin: 3rem 0;
-  background: linear-gradient(to right, transparent, var(--accent-orange), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--accent-orange),
+    transparent
+  );
   border: 0;
 }
 
