@@ -15,6 +15,9 @@ navigation:
   - title: Hardware Setup
     url: /hardware/setup.html
     icon: cpu
+  - title: Drop Mechanism
+    url: /hardware/drop-mechanism.html
+    icon: box
   - title: Software Installation
     url: /software/installation.html
     icon: terminal
