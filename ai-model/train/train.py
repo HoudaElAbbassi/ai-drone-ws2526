@@ -1,9 +1,13 @@
 from ultralytics import YOLO
 from roboflow import Roboflow
 import os
+import sys
 import yaml
 from dotenv import load_dotenv
-from ..utilities.utils import get_device, update_yaml_classes
+
+# Add parent directory to path to import utilities
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utilities.utils import get_device, update_yaml_classes
 
 if __name__ == "__main__":
     # Load environment variables from .env file
