@@ -7,7 +7,7 @@
 
 This project is part of the Master's Program in Computer Science (Field of Study: Intelligent Systems) at Frankfurt University of Applied Sciences, Winter Semester 2025/2026, supervised by Prof. Dr. Christian Baun.
 
-We are developing an AI-powered FPV drone system for **automated road damage detection and assessment**. The drone flies over roads and uses computer vision and deep learning models to identify and classify various types of road surface damage, including cracks, potholes, and surface degradation.
+We are developing an AI-powered FPV drone system for **automated road damage detection and assessment**. The drone flies over roads and uses computer vision and deep learning models to identify road surface damage. The current implementation focuses on **pothole detection** using YOLOv8, with architecture designed to support additional damage types in the future.
 
 ## Project Concept
 
@@ -21,8 +21,8 @@ Our drone autonomously patrols road infrastructure and performs real-time analys
 
 ## Project Goals
 
-- Develop and train AI models for road damage classification (cracks, potholes, surface wear)
-- Implement real-time detection system using computer vision and deep learning
+- Develop and train AI model for pothole detection using YOLOv8
+- Implement real-time detection system optimized for edge devices (Raspberry Pi + Google Coral TPU)
 - Create autonomous flight paths for systematic road coverage
 - Generate detailed damage reports with GPS coordinates and severity assessment
 - Build comprehensive documentation for replication and research
@@ -44,7 +44,7 @@ Our drone autonomously patrols road infrastructure and performs real-time analys
 - **Flight Controller Firmware**: Betaflight / INAV / ArduPilot
 - **Ground Control Station**: QGroundControl
 - **Operating System**: Raspbian / Ubuntu
-- **AI Framework**: TensorFlow Lite, YOLO
+- **AI Framework**: YOLOv8 (Ultralytics), TensorFlow Lite, PyTorch
 - **Programming Languages**: Python, C++
 
 ## Project Tasks
@@ -53,14 +53,25 @@ Our drone autonomously patrols road infrastructure and performs real-time analys
 Understanding the capabilities and limitations of all drone components.
 
 ### Task 2: AI Application Development
-Focus on road damage detection including:
-- **Longitudinal cracks**: Parallel to traffic direction
-- **Transverse cracks**: Perpendicular to traffic direction
-- **Alligator cracks**: Interconnected cracks forming patterns
-- **Potholes**: Surface depressions and holes
-- **Rutting**: Depressions in wheel paths
-- **Bleeding**: Excess asphalt on surface
-- **Weathering**: Surface texture degradation
+Developed a **YOLOv8 nano-based pothole detection system** optimized for edge deployment:
+
+**Implementation Highlights:**
+- **Model**: YOLOv8n (nano variant) for real-time detection on resource-constrained devices
+- **Dataset**: 4,510 annotated road images from Roboflow Universe
+  - Train: 3,993 images | Validation: 352 images | Test: 165 images
+  - Preprocessing: Histogram equalization, resizing to 840×840
+  - Augmentations: 3× data expansion with blur, noise, and grayscale variations
+- **Optimization**: INT8 quantization reducing model size by ~75% for edge deployment
+- **Deployment**: TensorFlow Lite with Google Coral TPU acceleration (10× faster inference)
+- **Current Focus**: Pothole detection (single-class)
+- **Extensibility**: Architecture supports additional damage types with appropriate training data
+
+**Technical Stack:**
+- Training: Ultralytics YOLOv8, PyTorch, Roboflow API
+- Deployment: TensorFlow Lite, INT8 quantization, Edge TPU compiler
+- Detection: Real-time video/webcam inference scripts
+
+See [`ai-model/`](ai-model/) directory for complete implementation and [AI Documentation](https://houdaelabbassi.github.io/ai-drone-ws2526/ai-applications/setup.html) for details.
 
 ### Task 3: Autopilot Integration
 Implementing autonomous flight capabilities using INAV or ArduPilot.
@@ -77,10 +88,9 @@ Full documentation is available at: [GitHub Pages Documentation](https://houdael
 
 ## Team Members
 
-- [Team Member 1]
-- [Team Member 2]
-- [Team Member 3]
-- [Team Member 4]
+- Dominique Conceicao Rosario
+- Muhammad Rizki Aulia Rahman
+- Houda El Abbassi
 
 ## Getting Started
 
@@ -99,17 +109,19 @@ pip install -r requirements.txt
 
 ```
 ai-drone-ws2526/
-├── docs/              # GitHub Pages documentation
-│   ├── hardware/      # Hardware setup guides
-│   ├── software/      # Software configuration
-│   ├── ai-applications/  # AI implementation guides
-│   ├── autopilot/     # Autopilot integration
-│   ├── delivery/      # Payload system documentation
-│   └── tutorials/     # Step-by-step tutorials
-├── src/               # Source code
-├── images/            # Project images and diagrams
-├── videos/            # Demo videos
-└── resources/         # Additional resources
+├── docs/                    # GitHub Pages documentation
+│   ├── hardware/            # Hardware setup guides
+│   ├── software/            # Software configuration
+│   ├── ai-applications/     # AI implementation guides
+│   ├── road-inspection/     # Project overview
+│   └── tutorials/           # Step-by-step tutorials
+├── ai-model/                # AI model implementation
+│   ├── train/               # Training scripts (train.py, validate.py)
+│   ├── detect/              # Detection scripts (video, webcam)
+│   ├── utilities/           # Model export and utilities
+│   └── dataset/             # Training dataset (created when train.py is run)
+├── camera_control.py        # Camera control script
+└── drop-mechanism.py        # Payload delivery system
 ```
 
 ## License
