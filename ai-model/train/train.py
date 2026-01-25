@@ -3,7 +3,7 @@ from roboflow import Roboflow
 import os
 import yaml
 from dotenv import load_dotenv
-from utilities.utils import get_device, update_yaml_classes
+from ..utilities.utils import get_device, update_yaml_classes
 
 if __name__ == "__main__":
     # Load environment variables from .env file
