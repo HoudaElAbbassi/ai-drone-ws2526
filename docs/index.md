@@ -21,7 +21,7 @@ Traditional road inspection is time-consuming, costly, and often inconsistent. T
 **Key capabilities:**
 
 - **Autonomous Flight** — Pre-programmed paths with GPS tracking for systematic road coverage
-- **AI Detection** — Real-time identification of 7+ road damage types using deep learning
+- **AI Detection** — Real-time pothole detection using YOLOv8 deep learning model
 - **Edge Computing** — On-board processing with Google Coral TPU for fast inference
 - **Live Monitoring** — FPV transmission for real-time oversight and control
 
@@ -49,17 +49,23 @@ Traditional road inspection is time-consuming, costly, and often inconsistent. T
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Damage Types Detected
+## Current Detection Capabilities
 
-| Type | Description | Severity |
-|------|-------------|----------|
-| Longitudinal Cracks | Parallel to traffic direction | Low / Medium / High |
-| Transverse Cracks | Perpendicular to traffic | Low / Medium / High |
-| Alligator Cracks | Interconnected patterns | Low / Medium / High |
-| Potholes | Surface depressions | Low / Medium / High |
-| Rutting | Wheel path depressions | Low / Medium / High |
-| Bleeding | Excess asphalt on surface | Low / Medium / High |
-| Weathering | Surface aggregate loss | Low / Medium / High |
+The system currently implements **pothole detection** using a YOLOv8n (nano) model trained specifically for identifying road surface depressions and holes. The model is optimized for real-time detection on edge devices like the Raspberry Pi Zero 2 WH with Google Coral TPU acceleration.
+
+**Currently Detected:**
+- **Potholes** — Bowl-shaped depressions and holes in road surfaces
+
+**Technical Details:**
+- Model: YOLOv8n (nano variant for speed and efficiency)
+- Format: TensorFlow Lite with INT8 quantization
+- Inference: Hardware-accelerated via Google Coral USB Accelerator
+- Performance: Real-time detection with ~10x speed improvement on Edge TPU
+
+**Future Extensions:**
+The system architecture is designed to be extensible for additional road damage types including longitudinal cracks, transverse cracks, alligator cracks, rutting, bleeding, and weathering. Additional damage types can be added by training on appropriate datasets.
+
+For detailed information about the AI model, training process, and technical specifications, see the [AI Model Documentation]({{ site.github.repository_url }}/tree/main/ai-model).
 
 ---
 
@@ -86,10 +92,11 @@ Traditional road inspection is time-consuming, costly, and often inconsistent. T
 
 ### Software
 - **OS**: Raspbian/Ubuntu
-- **AI**: TensorFlow Lite, YOLOv8
+- **AI**: YOLOv8n (nano), TensorFlow Lite, INT8 Quantization
 - **Flight**: INAV, ArduPilot
 - **Camera**: Picamera2
 - **Languages**: Python, C++
+- **ML Framework**: Ultralytics, PyTorch (training), TFLite (deployment)
 
 ---
 
