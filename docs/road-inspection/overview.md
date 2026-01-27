@@ -24,57 +24,25 @@ Traditional road inspection methods face several challenges:
 
 ## Our Solution
 
-An autonomous drone equipped with:
+An autonomous drone equipped with the hardware listed below, running an AI model that currently detects potholes. The current implementation does not record GPS data; detections are saved locally via the AI pipeline in `camera_control.py`.
 
-1. **High-resolution camera** for detailed surface imaging
-2. **AI-powered detection** using deep learning models
-3. **GPS tracking** for precise damage localization
-4. **Real-time processing** using edge computing (Google Coral)
-5. **Automated reporting** with damage classification and severity
+## Hardware Components (Drone 3)
+
+- **Frame**: SpeedyBee BEE35 Pro 3.5" CineWhoop Frame Kit
+- **Flight Controller**: Flywoo GOKU F722 PRO V2 (STM32F722, 216MHz, 512kB Flash) 55A Stack 3-6S AM32 (Betaflight v4.5.2)
+- **Camera**: Caddx Ratel Pro 1500TVL Analog (FPV)
+- **Video Transmitter**: SpeedyBee TX800 VTX
+- **Channel**: 5847 MHz (Band: BOSCAM/RichWave, Channel: 7)
+- **VTX Antenna**: Foxeer Lollipop 4 RHCP
+- **Receiver**: Radiomaster XR1 ELRS Dual Band RX (Firmware: ExpressLRS 3.6.0)
+- **Binding Phase**: drone3
+- **Motors**: Axisflying C206 2006 2500KV 4-6S
+- **Propellers**: Gemfan 90mm D90-5 3.5" Ducted 5-Blade Propeller
+- **GPS**: Matek M10Q-5883 GPS with Compass
 
 ## Types of Road Damage Detected
 
-### 1. Longitudinal Cracks
-**Description**: Cracks running parallel to the road centerline, typically in the direction of traffic flow.
-
-**Causes**:
-- Poor joint construction
-- Shrinkage of pavement surface
-- Poorly constructed paving lane joints
-
-**Severity levels**:
-- Low: Width < 6mm
-- Medium: Width 6-19mm
-- High: Width > 19mm
-
-### 2. Transverse Cracks
-**Description**: Cracks running perpendicular to the road centerline, across the traffic direction.
-
-**Causes**:
-- Thermal expansion and contraction
-- Hardening of asphalt
-- Reflection from underlying layers
-
-**Severity levels**:
-- Low: Width < 6mm, minimal branching
-- Medium: Width 6-19mm, some branching
-- High: Width > 19mm, extensive branching
-
-### 3. Alligator (Fatigue) Cracking
-**Description**: Interconnected cracks forming patterns resembling alligator skin or chicken wire.
-
-**Causes**:
-- Structural failure
-- Excessive loading
-- Weak subgrade or base
-- Thin pavement
-
-**Severity levels**:
-- Low: Fine cracks, no loss of material
-- Medium: Interconnected cracks, slight raveling
-- High: Severe interconnection, significant material loss
-
-### 4. Potholes
+### 1. Potholes (current model)
 **Description**: Bowl-shaped depressions in the pavement surface, varying in size and depth.
 
 **Causes**:
@@ -86,45 +54,6 @@ An autonomous drone equipped with:
 - Low: Diameter < 200mm, depth < 25mm
 - Medium: Diameter 200-500mm, depth 25-50mm
 - High: Diameter > 500mm, depth > 50mm
-
-### 5. Rutting
-**Description**: Longitudinal depressions in the wheel paths, where repeated traffic has compressed the pavement.
-
-**Causes**:
-- Consolidation or lateral movement of materials
-- Inadequate compaction
-- Weak surface mix
-
-**Severity levels**:
-- Low: Depth < 13mm
-- Medium: Depth 13-25mm
-- High: Depth > 25mm
-
-### 6. Bleeding
-**Description**: Film of asphalt binder on the pavement surface, creating a shiny, glass-like appearance.
-
-**Causes**:
-- Excess asphalt in mixture
-- Low air void content
-- Hot weather
-
-**Severity levels**:
-- Low: Slight bleeding, surface still rough
-- Medium: Moderate bleeding, becoming slippery
-- High: Severe bleeding, very slippery surface
-
-### 7. Weathering
-**Description**: Loss of surface aggregate and binder, resulting in rough, pitted surface.
-
-**Causes**:
-- Aging of asphalt
-- Traffic wear
-- Environmental factors (UV, rain, temperature)
-
-**Severity levels**:
-- Low: Aggregate slightly exposed
-- Medium: Significant aggregate loss
-- High: Severe raveling, base layer exposed
 
 ## System Workflow
 
@@ -147,8 +76,7 @@ An autonomous drone equipped with:
                  ▼
 ┌─────────────────────────────────────────────────────┐
 │  3. REAL-TIME IMAGE CAPTURE                         │
-│  - High-resolution images (minimum 4K)              │
-│  - GPS coordinates recorded for each frame          │
+│  - Analog video frames captured (1500TVL)           │
 │  - Timestamp for temporal tracking                  │
 └────────────────┬────────────────────────────────────┘
                  │
@@ -157,21 +85,20 @@ An autonomous drone equipped with:
 │  4. AI DETECTION & CLASSIFICATION                   │
 │  - Images processed by YOLO/TensorFlow Lite         │
 │  - Google Coral accelerates inference               │
-│  - Damage type and severity classified              │
-│  - Bounding boxes drawn around defects              │
+│  - Potholes detected and classified by severity     │
+│  - Detection screenshots saved                      │
 └────────────────┬────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────┐
 │  5. DATA STORAGE & LOGGING                          │
-│  - Damage coordinates logged with GPS               │
-│  - Images saved with annotations                    │
-│  - Metadata: timestamp, damage type, severity       │
+│  - Detection screenshots saved                      │
+│  - Metadata: timestamp and confidence score         │
 └────────────────┬────────────────────────────────────┘
                  │
                  ▼
 ┌─────────────────────────────────────────────────────┐
-│  6. REPORT GENERATION                               │
+│  6. REPORT GENERATION (PLANNED)                     │
 │  - Interactive map with damage locations            │
 │  - Statistical summary of road condition            │
 │  - Priority list for maintenance                    │
@@ -185,7 +112,8 @@ An autonomous drone equipped with:
 - **Altitude**: 5-10 meters above road surface
 - **Speed**: 2-5 m/s for optimal image quality
 - **Overlap**: 60-80% forward overlap between images
-- **Resolution**: Minimum 4K (3840 x 2160) for detecting small cracks
+- **Capture source**: Caddx Ratel Pro 1500TVL analog camera
+- **Processing resolution**: Typically 720p/1080p (depends on capture pipeline)
 - **Frame rate**: 5-10 FPS
 
 ### AI Model Architecture
@@ -210,7 +138,7 @@ An autonomous drone equipped with:
 ### Training Dataset
 
 **Required dataset characteristics**:
-- Minimum 5,000 labeled images per damage class
+- Minimum 5,000 labeled images for potholes
 - Various lighting conditions (sunny, cloudy, shadows)
 - Different road surface types (asphalt, concrete)
 - Multiple viewing angles and altitudes
@@ -254,9 +182,9 @@ An autonomous drone equipped with:
 | Challenge | Solution |
 |-----------|----------|
 | Variable lighting conditions | Image augmentation, HDR capture |
-| Small crack detection | High-resolution cameras, multi-scale detection |
+| Small crack detection | Shorter altitude, sharper optics, multi-scale detection |
 | Real-time processing constraints | Edge TPU acceleration, model optimization |
-| GPS accuracy (2-5m) | Image stitching, visual odometry refinement |
+| Location tagging | Not implemented yet (no GPS logging) |
 | Shadow/water confusion | Additional spectral bands, temporal analysis |
 | Battery life vs coverage | Efficient flight planning, battery swap stations |
 | Wind stability for imaging | Gimbal stabilization, weather-aware scheduling |
