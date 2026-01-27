@@ -70,7 +70,7 @@ cat /dev/ttyAMA0  # Should show NMEA sentences
 **WARNING: Remove all propellers before motor testing!**
 
 ```bash
-# Using Betaflight CLI or Configurator
+# Using INAV CLI or Configurator
 # Motors Tab -> Test each motor individually
 # Verify motor direction and order:
 # 1: Front-Left (CCW)
@@ -202,7 +202,7 @@ During your first test flight, keep the AI pipeline enabled by running the camer
 
 **Motors not spinning:**
 - Check ESC connections
-- Verify motor order in Betaflight
+- Verify motor order in INAV
 - Calibrate ESCs
 - Check for shorts in wiring
 
