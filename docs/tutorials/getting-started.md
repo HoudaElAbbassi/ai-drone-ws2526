@@ -67,7 +67,7 @@ cat /dev/ttyAMA0  # Should show NMEA sentences
 
 ### Motor Test (No Propellers!)
 
-⚠️ **WARNING: Remove all propellers before motor testing!**
+**WARNING: Remove all propellers before motor testing!**
 
 ```bash
 # Using Betaflight CLI or Configurator

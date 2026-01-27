@@ -9,344 +9,120 @@ title: Datasets for Road Damage Detection
 
 ## Overview
 
-Training an accurate road damage detection model requires large, diverse, and well-annotated datasets. This page provides information on available public datasets and guidelines for creating custom datasets.
+Training an accurate road damage detection model requires large, diverse, and well-annotated datasets. This page documents the dataset used in this project and provides information on public datasets for extending the system to detect additional damage types.
 
-## Public Datasets
+## Current Project Dataset
 
-### 1. RDD2020 (Road Damage Dataset 2020)
+### Pothole Detection Dataset (Roboflow)
 
-**Description**: Large-scale dataset containing 26,620 road damage images from India, Japan, and Czech Republic.
+**Source**: [Roboflow Universe - Pothole Detection](https://universe.roboflow.com/jerry-cooper-tlzkx/pothole_detection-hfnqo/dataset/7)
 
-**Damage Classes**:
-- D00: Longitudinal cracks
-- D10: Transverse cracks
-- D20: Alligator cracks
-- D40: Potholes
+**Dataset Statistics**:
+- **Total Images**: 4,510
+- **Train Set**: 3,993 images (88.5%)
+- **Validation Set**: 352 images (7.8%)
+- **Test Set**: 165 images (3.7%)
 
-**Format**: COCO annotation format
-**Resolution**: Variable (typically 600x600 to 4000x3000)
-**Source**: [IEEE DataPort](https://ieee-dataport.org/)
+**Classes**: 1 class - `pothole` (bowl-shaped depressions and holes in road surface)
 
-**Usage**:
-```python
-# Download and extract RDD2020
-# Available at: https://github.com/sekilab/RoadDamageDetector
+**Note**: The source Roboflow project contains 8 classes (pothole, curb, dash, distressed, grate, manhole, marking, utility), but this dataset version (v7) is filtered to only include pothole annotations for focused single-class detection.
 
-# Annotations in COCO JSON format
-{
-  "images": [...],
-  "annotations": [
-    {
-      "id": 1,
-      "image_id": 1,
-      "category_id": 1,
-      "bbox": [x, y, width, height],
-      "area": 1234.5,
-      "iscrowd": 0
-    }
-  ],
-  "categories": [...]
-}
-```
+#### Preprocessing Applied
 
-### 2. CrackForest Dataset
+The dataset has been preprocessed with the following operations:
 
-**Description**: 118 images with pixel-level crack annotations.
+| Operation | Description |
+|-----------|-------------|
+| **Auto-Orient** | Corrects image orientation based on EXIF data |
+| **Resize** | Stretch to 840×840 pixels |
+| **Auto-Adjust Contrast** | Histogram equalization for improved visibility |
+| **Filter Null** | Requires ≥20% of images to contain annotations |
 
-**Damage Classes**:
-- Surface cracks (binary classification)
+#### Augmentations Applied
 
-**Format**: Image + pixel masks
-**Resolution**: 480x320
-**Source**: [GitHub](https://github.com/cuilimeng/CrackForest-dataset)
+To increase dataset diversity and model robustness:
 
-**Best for**: Semantic segmentation of cracks, suitable for detailed crack width estimation.
+| Augmentation | Details |
+|--------------|---------|
+| **Outputs per training example** | 3× (triples the training data) |
+| **Grayscale** | Applied to 23% of images |
+| **Blur** | Up to 2.5px blur radius |
+| **Noise** | Up to 1.76% of pixels affected |
 
-### 3. GAPs Dataset (German Asphalt Pavement)
+**Format**: YOLO format (text files with normalized bounding box coordinates)
 
-**Description**: 1,969 labeled images of German road surfaces.
+**Access**: The dataset is managed through Roboflow API. Configure your `.env` file with appropriate credentials to automatically download during training (see [AI Applications Setup](setup.html)).
 
-**Damage Classes**:
-- Crack (single class)
+## Using the Project Dataset
 
-**Format**: Pascal VOC XML
-**Resolution**: Various
-**Source**: Research publication
+### Quick Start with Roboflow
 
-### 4. SDNET2018 (Surface Defect Network)
-
-**Description**: 56,000 images of concrete surfaces with cracks.
-
-**Damage Classes**:
-- Cracked
-- Non-cracked
-
-**Format**: Image classification dataset
-**Resolution**: 256x256
-**Source**: Utah State University
-
-**Note**: Originally for concrete structures, but useful for transfer learning.
-
-### 5. Crack500 Dataset
-
-**Description**: 500 images of pavement cracks with pixel-level annotations.
-
-**Damage Classes**:
-- Cracks (pixel-level segmentation)
-
-**Format**: Images + segmentation masks
-**Resolution**: 2000x1500
-**Source**: [GitHub](https://github.com/fyangneil/pavement-crack-detection)
-
-### 6. CFD (Concrete Fracture Dataset)
-
-**Description**: 118 concrete images with detailed crack annotations.
-
-**Damage Classes**:
-- Cracks
-
-**Format**: Images + binary masks
-**Resolution**: 480x320
-
-## Dataset Comparison
-
-| Dataset | Images | Classes | Annotation Type | Best For |
-|---------|--------|---------|-----------------|----------|
-| RDD2020 | 26,620 | 4 | Bounding boxes | Multi-class detection |
-| CrackForest | 118 | 1 | Pixel masks | Crack segmentation |
-| GAPs | 1,969 | 1 | Bounding boxes | German road conditions |
-| SDNET2018 | 56,000 | 2 | Image labels | Transfer learning |
-| Crack500 | 500 | 1 | Pixel masks | Detailed segmentation |
-| CFD | 118 | 1 | Binary masks | Crack patterns |
-
-## Creating Custom Dataset
-
-For optimal performance specific to your region and conditions, collect custom data.
-
-### Data Collection Guidelines
-
-**Flight Parameters**:
-- Altitude: 5-10 meters
-- Speed: 2-5 m/s
-- Overlap: 70-80% between images
-- Resolution: Minimum 4K (3840x2160)
-- Frame rate: 5-10 FPS
-
-**Coverage Requirements**:
-- Multiple road types: highways, urban, rural
-- Various weather: sunny, cloudy, wet, dry
-- Different times: morning, noon, afternoon (varying shadows)
-- All damage severity levels: low, medium, high
-- Various road materials: asphalt, concrete
-
-**Target Dataset Size**:
-- Minimum: 1,000 images per damage class
-- Recommended: 5,000+ images per class
-- Optimal: 10,000+ images per class
-
-### Annotation Tools
-
-#### 1. LabelImg
-**Best for**: Bounding box annotations (YOLO/COCO format)
+The training script (`ai-model/train/train.py`) automatically downloads the dataset from Roboflow. Configure your environment:
 
 ```bash
-# Install
-pip install labelImg
+# 1. Copy environment template
+cd ai-model
+cp .env.example .env
 
-# Run
-labelImg
+# 2. Edit .env with your Roboflow credentials
+ROBOFLOW_API_KEY=your_api_key_here
+ROBOFLOW_WORKSPACE=jerry-cooper-tlzkx
+ROBOFLOW_PROJECT=pothole_detection-hfnqo
+ROBOFLOW_PROJECT_NAME=pothole_detection
+ROBOFLOW_PROJECT_VERSION=7
+
+# 3. Run training (dataset downloads automatically)
+cd train
+python train.py
 ```
 
-**Workflow**:
-1. Open directory with images
-2. Draw bounding boxes around damage
-3. Assign class labels
-4. Save in YOLO or PascalVOC format
+### Dataset Structure
 
-#### 2. CVAT (Computer Vision Annotation Tool)
-**Best for**: Team collaboration, bounding boxes, polygons, segmentation
-
-- Web-based interface
-- Multi-user support
-- Supports COCO, YOLO, VOC formats
-- Can be self-hosted or use cloud version
-
-**URL**: https://cvat.org
-
-#### 3. Roboflow
-**Best for**: Data augmentation, format conversion, team collaboration
-
-- Web-based platform
-- Automatic augmentation
-- Export to multiple formats
-- Preprocessing pipeline
-
-**URL**: https://roboflow.com
-
-### Annotation Guidelines
-
-**Quality Standards**:
-- Draw tight bounding boxes around damage
-- Include entire damage area (don't crop)
-- Consistent labeling across annotators
-- Mark occluded damage (partially visible)
-- Annotate all visible damage in image
-
-**Bounding Box Rules**:
-```
-✓ Good: Box tightly fits damage area
-✗ Bad: Box too large, includes too much background
-✗ Bad: Box too small, cuts off damage
-✗ Bad: Missing damage instances
-```
-
-**Class Assignment**:
-- **Longitudinal**: Crack length > 2x width, parallel to traffic
-- **Transverse**: Crack length > 2x width, perpendicular to traffic
-- **Alligator**: Interconnected cracks forming pattern
-- **Pothole**: Hole or depression in surface
-- **Rutting**: Linear depression in wheel path
-- **Bleeding**: Shiny asphalt surface
-- **Weathering**: Aggregate loss, rough surface
-
-### Data Augmentation
-
-Increase dataset diversity and model robustness:
-
-```python
-import albumentations as A
-
-# Define augmentation pipeline
-transform = A.Compose([
-    # Geometric transformations
-    A.HorizontalFlip(p=0.5),
-    A.VerticalFlip(p=0.5),
-    A.Rotate(limit=15, p=0.5),
-    A.ShiftScaleRotate(shift_limit=0.1, scale_limit=0.1, rotate_limit=15, p=0.5),
-
-    # Color transformations
-    A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2, p=0.5),
-    A.HueSaturationValue(hue_shift_limit=10, sat_shift_limit=20, val_shift_limit=20, p=0.5),
-
-    # Weather effects
-    A.RandomRain(p=0.2),
-    A.RandomShadow(p=0.2),
-    A.RandomSunFlare(p=0.1),
-
-    # Noise and blur
-    A.GaussNoise(p=0.2),
-    A.GaussianBlur(blur_limit=(3, 5), p=0.2),
-    A.MotionBlur(blur_limit=5, p=0.2),
-], bbox_params=A.BboxParams(format='yolo', label_fields=['class_labels']))
-
-# Apply augmentation
-augmented = transform(image=image, bboxes=bboxes, class_labels=labels)
-```
-
-### Dataset Split
-
-Standard split for training, validation, and testing:
+After download, the dataset follows YOLO format:
 
 ```
-Training:   70% (for model learning)
-Validation: 20% (for hyperparameter tuning)
-Testing:    10% (for final evaluation)
-```
-
-**Important**:
-- Ensure no overlap between splits
-- Stratify by damage class (equal representation)
-- Test set should represent real-world conditions
-
-### Dataset Organization
-
-```
-road_damage_dataset/
+dataset/
 ├── train/
 │   ├── images/
-│   │   ├── img_0001.jpg
-│   │   ├── img_0002.jpg
+│   │   ├── image_0001.jpg
 │   │   └── ...
 │   └── labels/
-│       ├── img_0001.txt  # YOLO format
-│       ├── img_0002.txt
+│       ├── image_0001.txt  # YOLO annotations
 │       └── ...
-├── val/
+├── valid/
 │   ├── images/
 │   └── labels/
 ├── test/
 │   ├── images/
 │   └── labels/
-└── dataset.yaml  # Configuration file
+└── data.yaml  # Dataset configuration
 ```
 
-**dataset.yaml**:
-```yaml
-train: ./train/images
-val: ./val/images
-test: ./test/images
-
-nc: 7  # number of classes
-
-names:
-  0: longitudinal_crack
-  1: transverse_crack
-  2: alligator_crack
-  3: pothole
-  4: rutting
-  5: bleeding
-  6: weathering
+**YOLO Label Format** (`image_0001.txt`):
+```
+# class_id center_x center_y width height (all normalized 0-1)
+0 0.512 0.634 0.124 0.089
 ```
 
-## Data Quality Checks
+Where `class_id` is `0` for pothole (single class detection).
 
-Before training, verify dataset quality:
+## Extending to Additional Damage Types
 
-```python
-# Check dataset statistics
-import os
-import json
+To train the model on additional road damage types (cracks, rutting, etc.), you would need to collect and annotate a new dataset with those damage classes. The system architecture supports this through:
 
-def analyze_dataset(annotations_file):
-    with open(annotations_file, 'r') as f:
-        data = json.load(f)
+1. **Data Collection**: Capture images containing the desired damage types
+2. **Annotation**: Use tools like Roboflow, LabelImg, or CVAT to annotate bounding boxes
+3. **Training**: Run `train.py` with the new dataset configuration
+4. **Export**: Convert the trained model to TFLite for edge deployment
 
-    # Count images per class
-    class_counts = {}
-    for ann in data['annotations']:
-        cat_id = ann['category_id']
-        class_counts[cat_id] = class_counts.get(cat_id, 0) + 1
-
-    print("Class distribution:")
-    for cat_id, count in class_counts.items():
-        print(f"  Class {cat_id}: {count} instances")
-
-    # Check image sizes
-    sizes = [(img['width'], img['height']) for img in data['images']]
-    print(f"\nImage sizes: {len(set(sizes))} unique sizes")
-
-    # Check annotation bounding box sizes
-    bbox_areas = [ann['area'] for ann in data['annotations']]
-    print(f"\nBbox areas: min={min(bbox_areas):.2f}, max={max(bbox_areas):.2f}, mean={sum(bbox_areas)/len(bbox_areas):.2f}")
-
-analyze_dataset('annotations/train.json')
-```
-
-## Transfer Learning Sources
-
-Pre-trained models that can be fine-tuned:
-
-1. **COCO-pretrained YOLOv5**: General object detection
-2. **ImageNet-pretrained backbones**: Feature extraction
-3. **RDD2020-trained models**: Road damage specific
-4. **SDNET2018 models**: Crack detection
+The current Roboflow dataset management system makes it easy to extend the model's capabilities as new annotated data becomes available.
 
 ## Next Steps
 
-1. [Download and prepare datasets](setup.html)
-2. [Train your first model](training.html)
-3. [Evaluate model performance](evaluation.html)
+1. [Setup AI Environment](setup.html) - Configure training environment
+2. [Train Pothole Detection Model](setup.html#training-the-model) - Start training
+3. [Validate Performance](setup.html#model-validation-trainvalidatepy) - Evaluate model
 
 ---
 
-[← Back to AI Applications](setup.html) | [Next: Model Training →](training.html)
+[← Back to AI Applications](setup.html)

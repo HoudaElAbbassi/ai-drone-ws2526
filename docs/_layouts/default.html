@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171717">
+  {% seo %}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+</head>
+<body>
+
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      {% include sidebar.html %}
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <button class="mobile-menu-btn" aria-label="Toggle Menu" onclick="toggleSidebar()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="breadcrumbs">
+          <a href="{{ site.baseurl }}/" style="color: inherit; text-decoration: none;">Docs</a>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+          <span class="current">{{ page.title }}</span>
+        </div>
+      </header>
+
+      <div class="page-content">
+        {{ content }}
+        
+        <footer class="site-footer">
+          <p>© 2026 AI Drone Project · Frankfurt UAS</p>
+        </footer>
+      </div>
+    </main>
+    
+    <aside class="toc-sidebar" id="toc-sidebar">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </aside>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('visible');
+      document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+    }
+
+    function closeSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.remove('open');
+      overlay.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocList = document.getElementById('toc-list');
+      const tocSidebar = document.getElementById('toc-sidebar');
+      const headers = Array.from(document.querySelectorAll('.page-content h2, .page-content h3'));
+      
+      if (headers.length < 2) {
+        if (tocSidebar) tocSidebar.style.display = 'none';
+        return;
+      }
+
+      // Build TOC
+      headers.forEach(function(header) {
+        if (!header.id) {
+          header.id = header.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        }
+        const li = document.createElement('li');
+        li.style.paddingLeft = header.tagName === 'H3' ? '0.5rem' : '0';
+        const a = document.createElement('a');
+        a.href = '#' + header.id;
+        a.textContent = header.textContent;
+        a.className = 'toc-link';
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      // Scroll spy - highlight based on scroll position
+      function updateActiveLink() {
+        const scrollPos = window.scrollY + 80; // offset for header
+        let currentId = '';
+        
+        for (let i = headers.length - 1; i >= 0; i--) {
+          if (headers[i].offsetTop <= scrollPos) {
+            currentId = headers[i].id;
+            break;
+          }
+        }
+        
+        // If at bottom of page, highlight last section
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+          currentId = headers[headers.length - 1].id;
+        }
+        
+        document.querySelectorAll('.toc-link').forEach(function(link) {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + currentId) {
+            link.classList.add('active');
+          }
+        });
+      }
+
+      // Smooth scroll with correct offset when clicking TOC links
+      tocList.addEventListener('click', function(e) {
+        if (e.target.classList.contains('toc-link')) {
+          e.preventDefault();
+          const targetId = e.target.getAttribute('href').slice(1);
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            const offset = 70;
+            const targetPos = targetEl.offsetTop - offset;
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+            history.pushState(null, null, '#' + targetId);
+          }
+        }
+      });
+
+      window.addEventListener('scroll', updateActiveLink, { passive: true });
+      updateActiveLink();
+
+      // Sidebar nav active state
+      const currentPath = window.location.pathname;
+      document.querySelectorAll('.nav-link').forEach(function(link) {
+        const href = link.getAttribute('href');
+        if (href === currentPath || href === currentPath + '/' || currentPath.endsWith(href)) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

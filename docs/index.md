@@ -3,101 +3,82 @@ layout: default
 title: Home
 ---
 
-# AI Drone Project - Road Damage Detection System
+# AI-Powered Road Damage Detection
 
-Welcome to the documentation for our AI-powered FPV drone project focused on automated road damage detection and assessment.
+Autonomous FPV drone system with real-time AI for road infrastructure maintenance.
 
-## Project Overview
+<p style="margin: 1.5rem 0;">
+  <a href="{{ site.baseurl }}/road-inspection/overview.html" style="display: inline-block; padding: 0.5rem 1rem; background: #171717; color: white; border-radius: 6px; font-size: 0.8rem; font-weight: 500; text-decoration: none; margin-right: 0.5rem;">Get Started →</a>
+  <a href="{{ site.github.repository_url }}" style="display: inline-block; padding: 0.5rem 1rem; background: #f5f5f5; color: #171717; border-radius: 6px; font-size: 0.8rem; font-weight: 500; text-decoration: none;">GitHub</a>
+</p>
 
-This project is part of the **Master's Program in Computer Science** (Field of Study: Intelligent Systems) at **Frankfurt University of Applied Sciences**, Winter Semester 2025/2026.
+---
 
-**Supervisor**: Prof. Dr. Christian Baun
+## Project Mission
 
-### Mission Statement
+Traditional road inspection is time-consuming, costly, and often inconsistent. This project combines autonomous drone technology with edge AI to deliver efficient infrastructure monitoring.
 
-We are developing an intelligent drone system that autonomously flies over roads to detect and classify surface damage using computer vision and deep learning. Our goal is to revolutionize road infrastructure maintenance through automated, efficient, and accurate damage assessment.
+**Key capabilities:**
 
-## Project Concept
+- **Autonomous Flight** — Pre-programmed paths with GPS tracking for systematic road coverage
+- **AI Detection** — Real-time pothole detection using YOLOv8 deep learning model
+- **Edge Computing** — On-board processing with Google Coral TPU for fast inference
+- **Live Monitoring** — FPV transmission for real-time oversight and control
 
-Traditional road inspection is time-consuming, costly, and often inconsistent. Our solution: an autonomous drone equipped with AI that can:
-
-- **Fly over roads** systematically and capture high-resolution imagery
-- **Detect damage** in real-time using onboard AI processing (Google Coral TPU)
-- **Classify defects** into categories: cracks, potholes, rutting, bleeding, weathering
-- **Record locations** with precise GPS coordinates for each detected damage
-- **Generate reports** with damage severity, location maps, and maintenance priorities
-
-This enables proactive maintenance, reduces inspection costs, and improves road safety.
-
-## Key Features
-
-- **AI-Powered Damage Detection**: Real-time identification of 7+ types of road damage
-- **Autonomous Flight**: Pre-programmed flight paths for systematic road coverage
-- **Edge Computing**: On-board AI processing using Google Coral accelerator (10-100x faster)
-- **GPS Tracking**: Precise localization of each detected defect
-- **Live Monitoring**: FPV transmission for real-time inspection oversight
-- **Automated Reporting**: Generate inspection reports with maps and statistics
-
-## Types of Road Damage We Detect
-
-Our system identifies and classifies:
-
-1. **Longitudinal Cracks**: Parallel to traffic direction
-2. **Transverse Cracks**: Perpendicular to traffic direction
-3. **Alligator Cracks**: Interconnected cracking patterns
-4. **Potholes**: Surface depressions and holes
-5. **Rutting**: Depressions in wheel paths
-6. **Bleeding**: Excess asphalt on surface
-7. **Weathering**: Surface aggregate loss
-
-Each damage type is assessed for severity (low/medium/high) and recorded with GPS coordinates.
+---
 
 ## System Architecture
 
 ```
-┌─────────────────────────────────────────────┐
-│          FPV Drone Platform                 │
-│  ┌────────────┐        ┌─────────────┐     │
-│  │  Camera    │───────▶│ Raspberry Pi│     │
-│  │  System    │        │   Zero 2 WH │     │
-│  └────────────┘        └──────┬──────┘     │
-│                               │             │
-│  ┌────────────┐        ┌──────▼──────┐     │
-│  │   Flight   │◀──────▶│ Google Coral│     │
-│  │ Controller │        │ AI Accel.   │     │
-│  └────────────┘        └─────────────┘     │
-│                                             │
-│  ┌────────────┐        ┌─────────────┐     │
-│  │    GPS     │        │  FPV TX/RX  │     │
-│  │  Receiver  │        │   System    │     │
-│  └────────────┘        └─────────────┘     │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    FPV DRONE PLATFORM                       │
+│  ┌──────────────┐              ┌────────────────────┐      │
+│  │   Camera     │─────────────▶│   Raspberry Pi     │      │
+│  │   Module     │              │   Zero 2 WH        │      │
+│  └──────────────┘              └─────────┬──────────┘      │
+│                                          │                  │
+│  ┌──────────────┐              ┌─────────▼──────────┐      │
+│  │   Flight     │◀────────────▶│   Google Coral     │      │
+│  │  Controller  │              │   AI Accelerator   │      │
+│  └──────────────┘              └────────────────────┘      │
+│                                                             │
+│  ┌──────────────┐              ┌────────────────────┐      │
+│  │     GPS      │              │    FPV TX/RX       │      │
+│  │   Receiver   │              │    System          │      │
+│  └──────────────┘              └────────────────────┘      │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## Project Tasks
+## Current Detection Capabilities
 
-### [Task 1: Hardware & Software Setup](hardware/)
-Assemble drone, install computing hardware (Raspberry Pi, Google Coral), and configure software stack.
+The system currently implements **pothole detection** using a YOLOv8n (nano) model trained specifically for identifying road surface depressions and holes. The model is optimized for real-time detection on edge devices like the Raspberry Pi Zero 2 WH with Google Coral TPU acceleration.
 
-### [Task 2: AI Application Development](ai-applications/)
-Train and deploy deep learning models for road damage detection and classification.
+**Currently Detected:**
+- **Potholes** — Bowl-shaped depressions and holes in road surfaces
 
-### [Task 3: Autopilot Integration](autopilot/)
-Implement autonomous flight paths for systematic road coverage using ArduPilot/INAV.
+**Technical Details:**
+- Model: YOLOv8n (nano variant for speed and efficiency)
+- Format: TensorFlow Lite with INT8 quantization
+- Inference: Hardware-accelerated via Google Coral USB Accelerator
+- Performance: Real-time detection with ~10x speed improvement on Edge TPU
 
-### [Task 4: Payload System](delivery/)
-Optional: Integrate additional sensors or delivery mechanisms for maintenance supplies.
+**Future Extensions:**
+The system architecture is designed to be extensible for additional road damage types including longitudinal cracks, transverse cracks, alligator cracks, rutting, bleeding, and weathering. Additional damage types can be added by training on appropriate datasets.
 
-### [Task 5: Documentation](tutorials/)
-Create comprehensive documentation enabling replication by other researchers and students.
+For detailed information about the AI model, training process, and technical specifications, see the [AI Model Documentation]({{ site.github.repository_url }}/tree/main/ai-model).
 
-## Quick Links
+---
 
-- **[Road Damage Detection Overview](road-inspection/overview.html)** - Detailed project concept
-- [Hardware Setup Guide](hardware/setup.html) - Assemble and configure drone
-- [Software Installation](software/installation.html) - Install AI framework and tools
-- [AI Model Training](ai-applications/setup.html) - Train damage detection models
-- [Getting Started Tutorial](tutorials/getting-started.html) - First flight and testing
+## Documentation
+
+- [Project Overview]({{ site.baseurl }}/road-inspection/overview.html) — Concept, problem statement, and approach
+- [Hardware Setup]({{ site.baseurl }}/hardware/setup.html) — Assemble and configure drone components
+- [Software Installation]({{ site.baseurl }}/software/installation.html) — Install AI framework and tools
+- [Camera Control]({{ site.baseurl }}/software/camera-control.html) — RC-triggered recording system
+- [AI & Datasets]({{ site.baseurl }}/ai-applications/setup.html) — Train and deploy detection models
+- [Tutorials]({{ site.baseurl }}/tutorials/getting-started.html) — Step-by-step guides
+
+---
 
 ## Technology Stack
 
@@ -107,32 +88,19 @@ Create comprehensive documentation enabling replication by other researchers and
 - Google Coral USB Accelerator
 - Camera Module
 - GPS Receiver
-- Flight Controller (Betaflight/INAV/ArduPilot)
+- Flight Controller (INAV/ArduPilot)
 
 ### Software
 - **OS**: Raspbian/Ubuntu
-- **AI Frameworks**: TensorFlow Lite, YOLO
-- **Flight Software**: ArduPilot, QGroundControl
+- **AI**: YOLOv8n (nano), TensorFlow Lite, INT8 Quantization
+- **Flight**: INAV, ArduPilot
+- **Camera**: Picamera2
 - **Languages**: Python, C++
-
-## Team
-
-- Team Member 1 - [Role]
-- Team Member 2 - [Role]
-- Team Member 3 - [Role]
-- Team Member 4 - [Role]
-
-## Repository
-
-View the complete source code and resources on [GitHub](https://github.com/HoudaElAbbassi/ai-drone-ws2526).
-
-## Contact
-
-**Project Supervisor**
-- Prof. Dr. Christian Baun
-- Email: christianbaun@fra-uas.de
-- Web: [www.christianbaun.de](http://www.christianbaun.de)
+- **ML Framework**: Ultralytics, PyTorch (training), TFLite (deployment)
 
 ---
 
-*Last updated: October 2025*
+<p style="text-align: center; color: #737373; font-size: 0.8rem; margin-top: 2rem;">
+  Supervised by Prof. Dr. Christian Baun<br>
+  Frankfurt University of Applied Sciences · WS 2025/26
+</p>
