@@ -9,46 +9,46 @@ title: Drop Mechanism
 
 ## Overview
 
-Der Drop Mechanism ermöglicht das ferngesteuerte Abwerfen von Nutzlasten während des Fluges. Das System nutzt einen Servo-Motor, der über den RC-Sender (AUX8-Kanal) gesteuert wird und mit dem INAV Flight Controller über das MSP-Protokoll kommuniziert.
+The drop mechanism enables remote-controlled payload release during flight. The system uses a servo motor controlled via the RC transmitter (AUX8 channel) and communicates with the INAV flight controller via the MSP protocol.
 
-## Fotos
+## Photos
 
-### Aktuelles Foto
+### Current Photo
 
-![Drop Mechanism Foto](../assets/images/drop-mechanism-photo.jpg)
-*Platzhalter: Aktuelles Foto des Drop Mechanism hier einfügen*
+![Drop Mechanism Photo](../assets/images/drop-mechanism-photo.jpg)
+*Placeholder: Insert current photo of the drop mechanism here*
 
-<!-- TODO: Ersetze den Platzhalter mit dem tatsächlichen Foto -->
-<!-- Speichere das Foto unter: docs/assets/images/drop-mechanism-photo.jpg -->
+<!-- TODO: Replace the placeholder with the actual photo -->
+<!-- Save the photo to: docs/assets/images/drop-mechanism-photo.jpg -->
 
-### 3D-Modell
+### 3D Model
 
-![Drop Mechanism 3D-Modell](../assets/images/drop-mechanism-3d-model.jpg)
-*Platzhalter: 3D-Modell des Drop Mechanism hier einfügen*
+![Drop Mechanism 3D Model](../assets/images/drop-mechanism-3d-model.jpg)
+*Placeholder: Insert 3D model of the drop mechanism here*
 
-<!-- TODO: Ersetze den Platzhalter mit dem 3D-Modell Rendering -->
-<!-- Speichere das Bild unter: docs/assets/images/drop-mechanism-3d-model.jpg -->
+<!-- TODO: Replace the placeholder with the 3D model rendering -->
+<!-- Save the image to: docs/assets/images/drop-mechanism-3d-model.jpg -->
 
-## Komponenten
+## Components
 
-| Komponente | Spezifikation | Zweck |
-|-----------|---------------|-------|
-| Servo Motor | Standard Servo (z.B. SG90/MG90S) | Mechanische Betätigung |
-| Raspberry Pi | Pi Zero 2 WH | Steuerungslogik |
-| GPIO Pin | Pin 18 (BCM) | PWM-Signal für Servo |
-| Flight Controller | INAV-kompatibel | RC-Kanal Übertragung |
-| UART Verbindung | /dev/ttyS0 @ 115200 Baud | MSP-Kommunikation |
+| Component | Specification | Purpose |
+|-----------|---------------|---------|
+| Servo Motor | Standard Servo (e.g., SG90/MG90S) | Mechanical actuation |
+| Raspberry Pi | Pi Zero 2 WH | Control logic |
+| GPIO Pin | Pin 18 (BCM) | PWM signal for servo |
+| Flight Controller | INAV-compatible | RC channel transmission |
+| UART Connection | /dev/ttyS0 @ 115200 Baud | MSP communication |
 
-## Funktionsweise
+## How It Works
 
-### Systemarchitektur
+### System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     RC-Sender (Fernsteuerung)               │
-│                         AUX8 Schalter                       │
+│                     RC Transmitter (Remote Control)         │
+│                         AUX8 Switch                         │
 └──────────────────────────┬──────────────────────────────────┘
-                           │ RC-Signal
+                           │ RC Signal
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                   ELRS Receiver                             │
@@ -57,7 +57,7 @@ Der Drop Mechanism ermöglicht das ferngesteuerte Abwerfen von Nutzlasten währe
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
 │               INAV Flight Controller                        │
-│                  (MSP Protokoll)                            │
+│                  (MSP Protocol)                             │
 └──────────────────────────┬──────────────────────────────────┘
                            │ UART (ttyS0)
                            ▼
@@ -65,61 +65,61 @@ Der Drop Mechanism ermöglicht das ferngesteuerte Abwerfen von Nutzlasten währe
 │                  Raspberry Pi Zero 2                        │
 │              drop-mechanism.py Script                       │
 │                                                             │
-│  1. Liest RC-Kanäle via MSP                                 │
-│  2. Überwacht AUX8 Wert                                     │
-│  3. Toggle bei Knopf-Loslassen                              │
+│  1. Reads RC channels via MSP                               │
+│  2. Monitors AUX8 value                                     │
+│  3. Toggles on button release                               │
 └──────────────────────────┬──────────────────────────────────┘
                            │ GPIO 18 (PWM)
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                    Servo Motor                              │
-│           OFFEN (180°) ←→ GESCHLOSSEN (0°)                  │
+│           OPEN (180°) ←→ CLOSED (0°)                        │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Steuerungslogik
+### Control Logic
 
-Das System verwendet eine **Toggle-Logik beim Loslassen** des AUX8-Schalters:
+The system uses a **toggle-on-release** logic for the AUX8 switch:
 
-1. **Knopf drücken**: Keine Aktion (nur Statusanzeige)
-2. **Knopf loslassen**: Servo wechselt Position
-   - War GESCHLOSSEN → wird OFFEN (180°)
-   - War OFFEN → wird GESCHLOSSEN (0°)
+1. **Button press**: No action (status display only)
+2. **Button release**: Servo changes position
+   - Was CLOSED → becomes OPEN (180°)
+   - Was OPEN → becomes CLOSED (0°)
 
-Diese Logik verhindert unbeabsichtigtes mehrfaches Auslösen.
+This logic prevents accidental multiple triggers.
 
-## Konfiguration
+## Configuration
 
-### Servo-Einstellungen
+### Servo Settings
 
 ```python
-SERVO_PIN = 18              # GPIO Pin (BCM-Nummerierung)
-SERVO_OPEN_ANGLE = 180      # Offene Position (links)
-SERVO_CLOSED_ANGLE = 0      # Geschlossene Position (rechts)
+SERVO_PIN = 18              # GPIO Pin (BCM numbering)
+SERVO_OPEN_ANGLE = 180      # Open position (left)
+SERVO_CLOSED_ANGLE = 0      # Closed position (right)
 ```
 
-### Kommunikationsparameter
+### Communication Parameters
 
 ```python
 SERIAL_PORT = '/dev/ttyS0'  # UART Port
-BAUD_RATE = 115200          # Baudrate
-AUX_CHANNEL_INDEX = 8       # AUX8 Kanal (0-basiert)
-TRIGGER_VALUE = 1000        # PWM-Schwellwert (<1000 = gedrückt)
+BAUD_RATE = 115200          # Baud rate
+AUX_CHANNEL_INDEX = 8       # AUX8 channel (0-based)
+TRIGGER_VALUE = 1000        # PWM threshold (<1000 = pressed)
 ```
 
-## Verkabelung
+## Wiring
 
-### Servo-Anschluss
+### Servo Connection
 
 ```
 Raspberry Pi                 Servo
 ─────────────               ─────────
-GPIO 18 (Pin 12) ──────────→ Signal (Orange/Gelb)
-5V (Pin 2 oder 4) ─────────→ VCC (Rot)
-GND (Pin 6) ───────────────→ GND (Braun/Schwarz)
+GPIO 18 (Pin 12) ──────────→ Signal (Orange/Yellow)
+5V (Pin 2 or 4) ──────────→ VCC (Red)
+GND (Pin 6) ──────────────→ GND (Brown/Black)
 ```
 
-### UART-Verbindung zum Flight Controller
+### UART Connection to Flight Controller
 
 ```
 Raspberry Pi                 Flight Controller
@@ -131,33 +131,33 @@ GND ───────────────────────→ GND
 
 ## Installation
 
-### Voraussetzungen
+### Prerequisites
 
 ```bash
-# Python-Pakete installieren
+# Install Python packages
 pip3 install pyserial RPi.GPIO
 ```
 
-### Script kopieren
+### Copy Script
 
-Das Script `drop-mechanism.py` befindet sich im Root-Verzeichnis des Projekts:
+The `drop-mechanism.py` script is located in the project root directory:
 
 ```bash
-# Script ausführbar machen
+# Make script executable
 chmod +x drop-mechanism.py
 
-# Script starten
+# Start script
 python3 drop-mechanism.py
 ```
 
-### Autostart einrichten (optional)
+### Set Up Autostart (optional)
 
 ```bash
-# Systemd Service erstellen
+# Create systemd service
 sudo nano /etc/systemd/system/drop-mechanism.service
 ```
 
-Service-Datei Inhalt:
+Service file content:
 
 ```ini
 [Unit]
@@ -174,40 +174,40 @@ User=pi
 WantedBy=multi-user.target
 ```
 
-Aktivieren:
+Enable:
 
 ```bash
 sudo systemctl enable drop-mechanism.service
 sudo systemctl start drop-mechanism.service
 ```
 
-## Verwendung
+## Usage
 
-### Manuelle Steuerung
+### Manual Control
 
-1. **Script starten**: `python3 drop-mechanism.py`
-2. **Status beobachten**: Terminal zeigt aktuellen Zustand
-3. **AUX8 betätigen**: Schalter am RC-Sender drücken und loslassen
-4. **Servo reagiert**: Toggle zwischen OFFEN und GESCHLOSSEN
+1. **Start script**: `python3 drop-mechanism.py`
+2. **Monitor status**: Terminal shows current state
+3. **Activate AUX8**: Press and release switch on RC transmitter
+4. **Servo responds**: Toggles between OPEN and CLOSED
 
-### Terminal-Ausgabe
+### Terminal Output
 
 ```
 ✅ Serial: /dev/ttyS0
-🔒 Servo GESCHLOSSEN | Warte auf Knopf...
-🎮 AUX Knopf gedrückt=EIN → loslassen=TOGGLE
-AUX:1500 🔴 LOS | Servo: 🔒 GESCHLOSSEN
+🔒 Servo CLOSED | Waiting for button...
+🎮 AUX Button pressed=ON → release=TOGGLE
+AUX:1500 🔴 RELEASED | Servo: 🔒 CLOSED
 
-🔄 Knopf losgelassen! AUX:1500 → Toggle...
-   → ÖFFNEN (LINKS)
-AUX:1500 🔴 LOS | Servo: 🔓 OFFEN
+🔄 Button released! AUX:1500 → Toggle...
+   → OPENING (LEFT)
+AUX:1500 🔴 RELEASED | Servo: 🔓 OPEN
 ```
 
-## Code-Erklärung
+## Code Explanation
 
-### MSP-Protokoll
+### MSP Protocol
 
-Das Script verwendet das MSP (MultiWii Serial Protocol) zur Kommunikation mit dem Flight Controller:
+The script uses the MSP (MultiWii Serial Protocol) to communicate with the flight controller:
 
 ```python
 MSP_RC_REQUEST = b'$M<\x00\x69\x69'
@@ -222,83 +222,83 @@ def get_rc_channels():
     return struct.unpack('<' + 'H'*count, payload)
 ```
 
-### PWM-Berechnung
+### PWM Calculation
 
-Die Servo-Position wird über den Duty-Cycle gesteuert:
+The servo position is controlled via duty cycle:
 
 ```python
 def set_servo_angle(angle):
-    duty = 2 + (angle / 18)  # Konvertiert Winkel zu Duty-Cycle
+    duty = 2 + (angle / 18)  # Converts angle to duty cycle
     pwm.ChangeDutyCycle(duty)
-    time.sleep(0.5)          # Wartezeit für Servo-Bewegung
-    pwm.ChangeDutyCycle(0)   # PWM stoppen (verhindert Zittern)
+    time.sleep(0.5)          # Wait time for servo movement
+    pwm.ChangeDutyCycle(0)   # Stop PWM (prevents jitter)
 ```
 
 ## Troubleshooting
 
-### Häufige Probleme
+### Common Problems
 
-**Problem**: Serial Fehler beim Start
-- Überprüfe UART-Verbindung
-- Stelle sicher, dass `/dev/ttyS0` verfügbar ist
-- Prüfe Baudrate-Einstellung im Flight Controller
+**Problem**: Serial error at startup
+- Check UART connection
+- Make sure `/dev/ttyS0` is available
+- Check baud rate setting in flight controller
 
-**Problem**: Servo reagiert nicht
-- Überprüfe GPIO-Verkabelung
-- Prüfe 5V Stromversorgung für Servo
-- Teste Servo separat mit einfachem PWM-Script
+**Problem**: Servo does not respond
+- Check GPIO wiring
+- Check 5V power supply for servo
+- Test servo separately with simple PWM script
 
-**Problem**: AUX-Kanal zeigt keine Änderung
-- Überprüfe AUX8-Zuweisung im RC-Sender
-- Stelle sicher, dass MSP im Flight Controller aktiviert ist
-- Prüfe UART-Port-Konfiguration in INAV
+**Problem**: AUX channel shows no change
+- Check AUX8 assignment in RC transmitter
+- Make sure MSP is enabled in flight controller
+- Check UART port configuration in INAV
 
-**Problem**: Servo zittert
-- Erhöhe `time.sleep()` Wert in `set_servo_angle()`
-- Überprüfe Stromversorgung (zu schwach?)
-- Verwende separates BEC für Servo
+**Problem**: Servo jitters
+- Increase `time.sleep()` value in `set_servo_angle()`
+- Check power supply (too weak?)
+- Use separate BEC for servo
 
-## Sicherheitshinweise
+## Safety Notes
 
-⚠️ **Wichtige Sicherheitshinweise:**
+⚠️ **Important Safety Notes:**
 
-1. **Vor dem Flug testen**: Immer am Boden testen, bevor der Mechanismus im Flug verwendet wird
-2. **Nutzlast sichern**: Sicherstellen, dass die Nutzlast nicht versehentlich auslöst
-3. **Fluggebiet prüfen**: Nur in erlaubten Gebieten und mit entsprechender Genehmigung verwenden
-4. **Ausfallsicher**: Bei Signalverlust bleibt der Servo in seiner letzten Position
+1. **Test before flight**: Always test on the ground before using the mechanism in flight
+2. **Secure payload**: Ensure the payload does not release accidentally
+3. **Check flight area**: Only use in permitted areas and with appropriate authorization
+4. **Fail-safe**: On signal loss, the servo remains in its last position
 
-## Anpassungsmöglichkeiten
+## Customization Options
 
-### Andere Servo-Winkel
+### Different Servo Angles
 
 ```python
-# Beispiel: Kleinerer Öffnungswinkel
-SERVO_OPEN_ANGLE = 90       # Nur 90° öffnen
+# Example: Smaller opening angle
+SERVO_OPEN_ANGLE = 90       # Only open to 90°
 SERVO_CLOSED_ANGLE = 0
 ```
 
-### Anderer AUX-Kanal
+### Different AUX Channel
 
 ```python
-# Beispiel: AUX5 statt AUX8 verwenden
-AUX_CHANNEL_INDEX = 4       # 0-basiert: AUX5 = Index 4
+# Example: Use AUX5 instead of AUX8
+AUX_CHANNEL_INDEX = 4       # 0-based: AUX5 = Index 4
 ```
 
-### Invertierte Logik
+### Inverted Logic
 
 ```python
-# Trigger bei hohem Wert statt niedrigem
+# Trigger on high value instead of low
 TRIGGER_VALUE = 1500
-button_pressed = (aux_value > TRIGGER_VALUE)  # > statt <
+button_pressed = (aux_value > TRIGGER_VALUE)  # > instead of <
 ```
 
-## Nächste Schritte
+## Next Steps
 
-Nach der Einrichtung des Drop Mechanism:
-1. [Zurück zum Hardware Setup](setup.html)
-2. [Camera Control konfigurieren](../software/camera-control.html)
-3. [Erste Flugübungen](../tutorials/getting-started.html)
+After setting up the drop mechanism:
+1. [Back to Hardware Setup](setup.html)
+2. [Configure Camera Control](../software/camera-control.html)
+3. [First Flight Exercises](../tutorials/getting-started.html)
 
 ---
 
-[← Zurück zum Hardware Setup](setup.html) | [Nächstes: Software Installation →](../software/installation.html)
+[← Back to Hardware Setup](setup.html) | [Next: Software Installation →](../software/installation.html)
