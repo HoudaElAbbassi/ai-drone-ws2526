@@ -81,31 +81,27 @@ cat /dev/ttyAMA0  # Should show NMEA sentences
 
 ### AI System Test
 
-```python
-# test_ai_system.py
-from defect_detector import DefectDetector
-import time
+Use the built-in camera/AI pipeline to verify the Edge TPU model loads and live inference runs while recording:
 
-# Initialize detector
-print("Loading AI model...")
-detector = DefectDetector(
-    model_path="models/defect_detector_edgetpu.tflite",
-    labels_path="models/labels.txt"
-)
-print("Model loaded!")
-
-# Test with sample image
-print("Running test detection...")
-start = time.time()
-objects = detector.detect("test_images/sample.jpg", threshold=0.5)
-elapsed = time.time() - start
-
-print(f"Detection time: {elapsed*1000:.1f}ms")
-print(f"Objects found: {len(objects)}")
-
-for obj in objects:
-    print(f"  - {detector.labels[obj.id]}: {obj.score:.2f}")
+```bash
+# From the Raspberry Pi
+python3 camera_control.py
 ```
+
+Expected behavior:
+- On startup, the script prints the model input shape and starts the camera.
+- Toggling the AUX channel starts/stops recording.
+- While recording, detections are saved as images in the configured video folder.
+
+If you are testing the payload drop mechanism, run it separately:
+
+```bash
+python3 drop-mechanism.py
+```
+
+Expected behavior:
+- Servo starts in the closed position.
+- Releasing the AUX button toggles open/close.
 
 ### Radio Range Test
 
@@ -174,99 +170,9 @@ for obj in objects:
 **Start with Angle mode!**
 
 ## Step 4: AI System First Test
+During your first test flight, keep the AI pipeline enabled by running the camera control script. The system will save detections automatically when the model finds an object above the confidence threshold.
 
-### Capture Test Footage
-
-```python
-# capture_footage.py
-import cv2
-import time
-
-# Initialize camera
-cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-
-print("Capturing test footage...")
-print("Press 'q' to quit, 'c' to capture frame")
-
-frame_count = 0
-
-while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
-
-    # Display frame
-    cv2.imshow('Drone Camera', frame)
-
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord('q'):
-        break
-    elif key == ord('c'):
-        filename = f"capture_{frame_count:04d}.jpg"
-        cv2.imwrite(filename, frame)
-        print(f"Saved {filename}")
-        frame_count += 1
-
-cap.release()
-cv2.destroyAllWindows()
-```
-
-### Run Object Detection
-
-```python
-# test_detection.py
-from defect_detector import DefectDetector
-import glob
-
-detector = DefectDetector(
-    model_path="models/defect_detector_edgetpu.tflite",
-    labels_path="models/labels.txt"
-)
-
-# Process all captured images
-images = glob.glob("capture_*.jpg")
-
-for img_path in images:
-    print(f"\nProcessing {img_path}...")
-
-    objects = detector.detect(img_path, threshold=0.5)
-
-    if objects:
-        print(f"  Found {len(objects)} object(s):")
-        for obj in objects:
-            label = detector.labels[obj.id]
-            score = obj.score
-            print(f"    - {label}: {score:.2%}")
-
-        # Save annotated image
-        output = img_path.replace('.jpg', '_detected.jpg')
-        detector.draw_results(img_path, objects, output)
-        print(f"  Saved result to {output}")
-    else:
-        print("  No objects detected")
-```
-
-## Step 5: Basic Inspection Mission
-
-### Mission Planning
-
-```python
-# simple_mission.py
-waypoints = [
-    {'lat': 50.1234, 'lon': 8.5678, 'alt': 10},  # Takeoff
-    {'lat': 50.1235, 'lon': 8.5678, 'alt': 10},  # Move forward 10m
-    {'lat': 50.1235, 'lon': 8.5679, 'alt': 10},  # Move right 10m
-    {'lat': 50.1234, 'lon': 8.5679, 'alt': 10},  # Move back
-    {'lat': 50.1234, 'lon': 8.5678, 'alt': 10},  # Return to start
-]
-
-# This is a basic example - actual implementation depends on
-# your autopilot system (ArduPilot, INAV, etc.)
-```
-
-## Step 6: Troubleshooting
+## Step 5: Troubleshooting
 
 ### Common Issues
 
@@ -300,36 +206,6 @@ waypoints = [
 - Calibrate ESCs
 - Check for shorts in wiring
 
-## Step 7: Data Analysis
-
-### Review Flight Logs
-
-```python
-# analyze_flight.py
-import json
-
-# Load inspection results
-with open('inspection_report.json', 'r') as f:
-    report = json.load(f)
-
-# Summary statistics
-print("=== Flight Summary ===")
-print(f"Inspection Date: {report['inspection_date']}")
-print(f"Total Waypoints: {len(report['locations'])}")
-print(f"Total Defects Found: {report['total_defects']}")
-
-# Defect breakdown
-defect_types = {}
-for location in report['locations']:
-    for defect in location['defects']:
-        defect_type = defect['type']
-        defect_types[defect_type] = defect_types.get(defect_type, 0) + 1
-
-print("\n=== Defect Breakdown ===")
-for defect_type, count in defect_types.items():
-    print(f"{defect_type}: {count}")
-```
-
 ## Next Steps
 
 Now that you've completed your first flight and inspection:
@@ -337,8 +213,7 @@ Now that you've completed your first flight and inspection:
 1. **Practice Flying**: Get comfortable with manual control
 2. **Tune AI Model**: Train on your specific inspection targets
 3. **Plan Missions**: Create automated inspection routes
-4. **Analyze Results**: Review and improve detection accuracy
-5. **Document Findings**: Keep detailed logs of inspections
+4. **Document Findings**: Keep detailed logs of inspections
 
 ## Safety Reminders
 
@@ -353,9 +228,10 @@ Now that you've completed your first flight and inspection:
 ## Resources
 
 - [Hardware Setup](../hardware/setup.html)
+- [Drop Mechanism](../hardware/drop-mechanism.html)
+- [Camera Control](../software/camera-control.html)
 - [Software Installation](../software/installation.html)
 - [AI Applications](../ai-applications/setup.html)
-- [Autopilot Configuration](../autopilot/configuration.html)
 
 ---
 
